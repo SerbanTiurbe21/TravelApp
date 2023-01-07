@@ -46,4 +46,16 @@
     <string name="please_add_the_leaving_date_loew">Please add the leaving date</string>
     <string name="please_select_an_image">Please select an image!</string>
     <string name="save">SAVE</string>
+    <string name="contact_caps">CONTACT</string>
+    <string name="contact_text">If you have questions about the services offered by Travel Buddy we would like to invite you to send us an email using the form below.</string>
+    <string name="problems">Problems</string>
+    <string name="options">Options</string>
+    <string name="text">Text</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string-array name="stringsList">
+        <item>"General question"</item>
+        <item>"Registration difficulties"</item>
+        <item>"Unable to recover password"</item>
+    </string-array>>
 </resources>

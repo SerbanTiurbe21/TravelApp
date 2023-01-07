@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.myapplication_test.R;
 
@@ -16,6 +20,10 @@ import com.google.myapplication_test.R;
  * create an instance of this fragment.
  */
 public class ContactFragment extends Fragment {
+
+    static String[] items = {"General question","Registration difficulties","Unable to recover password"};
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> adapterItem;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +69,21 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false);
+        View view =  inflater.inflate(R.layout.fragment_contact, container, false);
+        autoCompleteTextView = view.findViewById(R.id.autoComplete);
+
+        String[] myList = getResources().getStringArray(R.array.stringsList);
+
+        adapterItem = new ArrayAdapter<String>(requireContext(),R.layout.dropdown_item,myList);
+        autoCompleteTextView.setAdapter(adapterItem);
+        /*
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getContext(),"item" + item,Toast.LENGTH_SHORT).show();
+            }
+        });*/
+        return view;
     }
 }
