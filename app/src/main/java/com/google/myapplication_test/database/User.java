@@ -18,7 +18,7 @@ public class User {
     @Embedded
     public final City city;
 
-    public User(@NonNull String email, @NonNull String name, @NonNull String password, @NonNull City city) {
+    public User(@NonNull String email, @NonNull String name, @NonNull String password,City city) {
         this.email = email;
         this.name = name;
         this.password = password;

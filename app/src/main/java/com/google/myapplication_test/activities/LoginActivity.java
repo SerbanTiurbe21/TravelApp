@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,8 +31,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void loginButtonAction() {
-        databaseHelper = new DatabaseHelper(this);
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
         loginButtonLogin.setOnClickListener(view -> {
             String userEmail = emailAddressLogin.getText().toString();
             StringBuilder username = new StringBuilder();
@@ -46,8 +49,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (!isValidEmail(userEmail) || (password.length() < 8 && !isValidPassword(password))) {
                     Toast.makeText(LoginActivity.this, "Invalid email address or password!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Boolean checkUserPassword = databaseHelper.checkPasswordForLogin(userEmail, password);
-                    if (checkUserPassword) {
+                    int checkUserPassword = db.userDao().findByEmailAndPassword(emailAddressLogin.getText().toString(),passwordLogin.getText().toString());
+                    //Boolean checkUserPassword = databaseHelper.checkPasswordForLogin(userEmail, password);
+                    if (checkUserPassword > 0) {
                         Toast.makeText(LoginActivity.this, "Sign in successfully!", Toast.LENGTH_SHORT).show();
                         Intent changeActivity = new Intent(LoginActivity.this, MainActivity.class);
                         changeActivity.putExtra("username", (CharSequence) username);

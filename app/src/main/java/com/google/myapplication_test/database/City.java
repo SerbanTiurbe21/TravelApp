@@ -19,9 +19,9 @@ public class City {
     @NonNull
     public float price;
     @NonNull
-    public Date start_date;
+    public String start_date;
     @NonNull
-    public Date end_date;
+    public String end_date;
     @NonNull
     public float rating;
     @NonNull
@@ -35,7 +35,7 @@ public class City {
     @NonNull
     public boolean isFavourite;
 
-    public City(@NonNull String trip_name, @NonNull String destination, @NonNull String trip_type, @NonNull float price, @NonNull Date start_date, @NonNull Date end_date, @NonNull float rating, @NonNull String photo_uri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
+    public City(@NonNull String trip_name, @NonNull String destination, @NonNull String trip_type, @NonNull float price, @NonNull String start_date, @NonNull String end_date, @NonNull float rating, @NonNull String photo_uri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
         this.trip_name = trip_name;
         this.destination = destination;
         this.trip_type = trip_type;
@@ -76,12 +76,12 @@ public class City {
     }
 
     @NonNull
-    public Date getStart_date() {
+    public String getStart_date() {
         return start_date;
     }
 
     @NonNull
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 

@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.DatabaseHelper;
+import com.google.myapplication_test.database.User;
 import com.google.myapplication_test.utilities.Utility;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,7 +30,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setRegisterButtonReg() {
-        databaseHelper = new DatabaseHelper(this);
+        //databaseHelper = new DatabaseHelper(this);
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
         registerButtonReg.setOnClickListener(view -> {
             String email = emailAddressReg.getText().toString();
             String username = usernameReg.getText().toString();
@@ -47,17 +50,22 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Invalid username!", Toast.LENGTH_SHORT).show();
                         } else {
                             if (password.equals(repass)) {
-                                Boolean checkUsername = databaseHelper.checkUsername(username);
-                                Boolean checkEmail = databaseHelper.checkEmail(email);
+                                boolean checkUsername = db.userDao().countUsersByName(username) > 0;
+                                //Boolean checkUsername = databaseHelper.checkUsername(username);
+                                //Boolean checkEmail = databaseHelper.checkEmail(email);
+                                boolean checkEmail = db.userDao().countUsersByEmail(email) > 0;
                                 if (!checkEmail && !checkUsername) {
-                                    Boolean insert = databaseHelper.insertData(email, username, password);
-                                    if (insert) {
-                                        Toast.makeText(RegisterActivity.this, "Successfully registered!", Toast.LENGTH_SHORT).show();
-                                        Intent changeActivity = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(changeActivity);
-                                    } else {
-                                        Toast.makeText(RegisterActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
-                                    }
+                                    //Boolean insert = databaseHelper.insertData(email, username, password);
+                                    // if (insert) {
+                                    //                                        Toast.makeText(RegisterActivity.this, "Successfully registered!", Toast.LENGTH_SHORT).show();
+                                    //                                        Intent changeActivity = new Intent(RegisterActivity.this, MainActivity.class);
+                                    //                                        startActivity(changeActivity);
+                                    //                                    } else {
+                                    //                                        Toast.makeText(RegisterActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
+                                    //                                    }
+                                    User user = new User(email,username,password,null);
+                                    db.userDao().insert(user);
+                                    db.close();
                                 } else {
                                     Toast.makeText(RegisterActivity.this, "User already exists! Please sign in!", Toast.LENGTH_SHORT).show();
                                 }

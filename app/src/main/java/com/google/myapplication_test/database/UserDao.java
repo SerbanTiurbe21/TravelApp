@@ -28,8 +28,8 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE name = :name")
     User findByName(String name);
 
-    @Query("SELECT * FROM users WHERE email = :email AND password = :password")
-    User findByEmailAndPassword(String email, String password);
+    @Query("SELECT COUNT(*) FROM users WHERE email = :email AND password = :password")
+    int findByEmailAndPassword(String email, String password);
 
     @Query("SELECT COUNT(*) FROM users WHERE name = :name")
     int countUsersByName(String name);
