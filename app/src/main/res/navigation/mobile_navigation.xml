@@ -20,13 +20,13 @@
     <fragment
         android:id="@+id/nav_Contact"
         android:name="com.google.myapplication_test.fragments.ContactFragment"
-        android:label="About us"
+        android:label="Contact"
         tools:layout="@layout/fragment_contact" />
 
     <fragment
         android:id="@+id/nav_Share"
         android:name="com.google.myapplication_test.fragments.ShareFragment"
-        android:label="About us"
+        android:label="Share"
         tools:layout="@layout/fragment_share" />
 
 </navigation>
