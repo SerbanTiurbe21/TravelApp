@@ -1,97 +1,117 @@
 package com.google.myapplication_test.database;
 
-public class City {
-    private int id;
-    private String email;
-    private String name;
-    private String arrivedOn;
-    private String leftOn;
-    private float temperature;
-    private float latitude;
-    private float longitude;
-    private byte[] image;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public City(int id, String email, String name, String arrivedOn, String leftOn, float temperature, float latitude, float longitude, byte[] image) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.arrivedOn = arrivedOn;
-        this.leftOn = leftOn;
+import java.util.Date;
+
+@Entity(tableName = "cities")
+public class City {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    @NonNull
+    public String trip_name;
+    @NonNull
+    public String destination;
+    @NonNull
+    public String trip_type;
+    @NonNull
+    public float price;
+    @NonNull
+    public Date start_date;
+    @NonNull
+    public Date end_date;
+    @NonNull
+    public float rating;
+    @NonNull
+    public String photo_uri;
+    @NonNull
+    public float temperature;
+    @NonNull
+    public float latitude;
+    @NonNull
+    public float longitude;
+    @NonNull
+    public boolean isFavourite;
+
+    public City(@NonNull String trip_name, @NonNull String destination, @NonNull String trip_type, @NonNull float price, @NonNull Date start_date, @NonNull Date end_date, @NonNull float rating, @NonNull String photo_uri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
+        this.trip_name = trip_name;
+        this.destination = destination;
+        this.trip_type = trip_type;
+        this.price = price;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.rating = rating;
+        this.photo_uri = photo_uri;
         this.temperature = temperature;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.image = image;
+        this.isFavourite = isFavourite;
     }
 
+    @NonNull
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @NonNull
+    public String getTrip_name() {
+        return trip_name;
     }
 
-    public String getEmail() {
-        return email;
+    @NonNull
+    public String getDestination() {
+        return destination;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @NonNull
+    public String getTrip_type() {
+        return trip_type;
     }
 
-    public String getName() {
-        return name;
+    @NonNull
+    public float getPrice() {
+        return price;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @NonNull
+    public Date getStart_date() {
+        return start_date;
     }
 
-    public String getArrivedOn() {
-        return arrivedOn;
+    @NonNull
+    public Date getEnd_date() {
+        return end_date;
     }
 
-    public void setArrivedOn(String arrivedOn) {
-        this.arrivedOn = arrivedOn;
+    @NonNull
+    public float getRating() {
+        return rating;
     }
 
-    public String getLeftOn() {
-        return leftOn;
+    @NonNull
+    public String getPhoto_uri() {
+        return photo_uri;
     }
 
-    public void setLeftOn(String leftOn) {
-        this.leftOn = leftOn;
-    }
-
+    @NonNull
     public float getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
-        this.temperature = temperature;
-    }
-
+    @NonNull
     public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
+    @NonNull
     public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
+    @NonNull
+    public boolean getIsFavourite(){
+        return isFavourite;
     }
 }

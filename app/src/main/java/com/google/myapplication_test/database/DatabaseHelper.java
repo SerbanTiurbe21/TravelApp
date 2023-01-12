@@ -126,13 +126,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public City getCity(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("Cities", new String[] { "_id", "email", "name", "arrived_on", "left_on", "temperature", "latitude", "longitude", "image" }, "_id=?", new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        City city = new City(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getFloat(5), cursor.getFloat(6), cursor.getFloat(7), cursor.getBlob(8));
-        return city;
-    }
 }
