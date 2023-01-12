@@ -53,6 +53,7 @@
     <string name="text">Text</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
+    <string name="send">SEND</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>

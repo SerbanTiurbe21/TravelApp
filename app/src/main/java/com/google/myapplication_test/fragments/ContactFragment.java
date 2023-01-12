@@ -1,5 +1,7 @@
 package com.google.myapplication_test.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.myapplication_test.R;
@@ -22,7 +26,9 @@ import com.google.myapplication_test.R;
 public class ContactFragment extends Fragment {
 
     static String[] items = {"General question","Registration difficulties","Unable to recover password"};
-    AutoCompleteTextView autoCompleteTextView;
+    AutoCompleteTextView autoCompleteTextView, autoComplete;
+    EditText problemTextContact, nameContact, emailContact;
+    Button buttonSendContact;
     ArrayAdapter<String> adapterItem;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -71,6 +77,10 @@ public class ContactFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_contact, container, false);
         autoCompleteTextView = view.findViewById(R.id.autoComplete);
+        problemTextContact = view.findViewById(R.id.problemTextContact);
+        emailContact = view.findViewById(R.id.emailContact);
+        autoComplete = view.findViewById(R.id.autoComplete);
+        buttonSendContact = view.findViewById(R.id.buttonSendContact);
 
         String[] myList = getResources().getStringArray(R.array.stringsList);
 
@@ -84,6 +94,27 @@ public class ContactFragment extends Fragment {
                 Toast.makeText(getContext(),"item" + item,Toast.LENGTH_SHORT).show();
             }
         });*/
+
+
+        buttonSendContact.setOnClickListener(view1 -> {
+            if(!problemTextContact.getText().toString().isEmpty() && !autoCompleteTextView.getText().toString().isEmpty() && !emailContact.getText().toString().isEmpty()){
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"tavelbuddy@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT,autoCompleteTextView.getText().toString());
+                intent.putExtra(Intent.EXTRA_TEXT,problemTextContact.getText().toString());
+                intent.setType("message/rfc822");
+                if(intent.resolveActivity(getContext().getPackageManager()) != null){
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getContext(),"There is no application to support this action!",Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(getContext(),"Please fill in all the fields!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 }
