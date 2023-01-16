@@ -1,5 +1,6 @@
 package com.google.myapplication_test.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -20,7 +21,7 @@ public interface UserDao {
     void delete(User user);
 
     @Query("SELECT * FROM users")
-    List<User> getAll();
+    LiveData<List<User>> getAll();
 
     @Query("SELECT * FROM users WHERE email = :email")
     User findByEmail(String email);

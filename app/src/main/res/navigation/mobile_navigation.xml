@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.google.myapplication_test.fragments.HomeFragment"
+        android:name="com.google.myapplication_test.fragments.trip.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
