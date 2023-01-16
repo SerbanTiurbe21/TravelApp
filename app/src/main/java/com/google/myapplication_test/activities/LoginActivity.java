@@ -34,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginButtonAction() {
-        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        //AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        databaseHelper = new DatabaseHelper(this);
         loginButtonLogin.setOnClickListener(view -> {
             String userEmail = emailAddressLogin.getText().toString();
             StringBuilder username = new StringBuilder();
@@ -49,9 +50,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (!isValidEmail(userEmail) || (password.length() < 8 && !isValidPassword(password))) {
                     Toast.makeText(LoginActivity.this, "Invalid email address or password!", Toast.LENGTH_SHORT).show();
                 } else {
-                    int checkUserPassword = db.userDao().findByEmailAndPassword(emailAddressLogin.getText().toString(),passwordLogin.getText().toString());
-                    //Boolean checkUserPassword = databaseHelper.checkPasswordForLogin(userEmail, password);
-                    if (checkUserPassword > 0) {
+                    //int checkUserPassword = db.userDao().findByEmailAndPassword(emailAddressLogin.getText().toString(),passwordLogin.getText().toString());
+                    Boolean checkUserPassword = databaseHelper.checkPasswordForLogin(userEmail, password);
+                    if (checkUserPassword ) {
                         Toast.makeText(LoginActivity.this, "Sign in successfully!", Toast.LENGTH_SHORT).show();
                         Intent changeActivity = new Intent(LoginActivity.this, MainActivity.class);
                         changeActivity.putExtra("username", (CharSequence) username);
