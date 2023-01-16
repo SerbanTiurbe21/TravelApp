@@ -14,10 +14,13 @@ import com.google.myapplication_test.R;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.DatabaseHelper;
 import com.google.myapplication_test.database.User;
+import com.google.myapplication_test.database.UserDao;
 import com.google.myapplication_test.database.UserViewModel;
 import com.google.myapplication_test.utilities.Utility;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -37,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setRegisterButtonReg() {
+        Executor executor = Executors.newSingleThreadExecutor();
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         registerButtonReg.setOnClickListener(view -> {
             String email = emailAddressReg.getText().toString();

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public Boolean checkUsersName(String name){
-        int count = userRepository.countUsersByName(name);
+        MutableLiveData<Integer> mutableLiveData = userRepository.countUsersByName(name);
+        Integer count = mutableLiveData.getValue();
         if(count > 0){
             return true;
         }
