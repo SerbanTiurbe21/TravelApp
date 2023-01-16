@@ -62,6 +62,9 @@
     <string name="seth_kalvert">CHIEF LEGAL OFFICER\nSeth Kalvert has responsibility for all the legal activities of TravelBuddy. Prior to assuming his role as General Counsel in August 2011, Seth held various positions, most recently as Vice President.</string>
     <string name="arriving_date">Please add the arriving date!</string>
     <string name="find_us_on">Find us on:</string>
+    <string name="_destination">-Destination-</string>
+    <string name="price">Price</string>
+    <string name="rating">Rating</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>
