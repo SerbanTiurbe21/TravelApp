@@ -57,10 +57,11 @@
     <string name="about_us_caps">ABOUT US</string>
     <string name="text_about_us">TravelBuddy, the world\'s largest travel platform, helps hundreds of persons to save the places they visited and makes life easier for them in just a few clicks. As a travel company available in 43 markets and 22 languages, TravelBuddy makes remembering places easy no matter how long in the past you\'ve been gone.</string>
     <string name="our_team">OUR TEAM</string>
-    <string name="text_serban"><![CDATA[PRESIDENT & CEO \nTiurbe Serban is Preident and CEO of Travel Buddy. Serban has more than 5 years\' leadership experience across a diversity of sectors, including travel, digital media, e-commerce and data.]]></string>
+    <string name="text_serban"><![CDATA[PRESIDENT & CEO \nTiurbe Serban is President and CEO of Travel Buddy. Serban has more than 5 years\' leadership experience across a diversity of sectors, including travel, digital media, e-commerce and data.]]></string>
     <string name="john_boris">CHIEF MARKETING OFFICER\nJohn Boris leads TravelBuddy\'s global marketing organization, inclusive of customer acquisition and engagement, performance and brand marketing.</string>
     <string name="seth_kalvert">CHIEF LEGAL OFFICER\nSeth Kalvert has responsibility for all the legal activities of TravelBuddy. Prior to assuming his role as General Counsel in August 2011, Seth held various positions, most recently as Vice President.</string>
     <string name="arriving_date">Please add the arriving date!</string>
+    <string name="find_us_on">Find us on:</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>
