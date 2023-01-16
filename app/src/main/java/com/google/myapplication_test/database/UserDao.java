@@ -24,10 +24,10 @@ public interface UserDao {
     LiveData<List<User>> getAll();
 
     @Query("SELECT * FROM users WHERE email = :email")
-    User findByEmail(String email);
+    LiveData<List<User>> findByEmail(String email);
 
     @Query("SELECT * FROM users WHERE name = :name")
-    User findByName(String name);
+    LiveData<List<User>> findByName(String name);
 
     @Query("SELECT COUNT(*) FROM users WHERE email = :email AND password = :password")
     int findByEmailAndPassword(String email, String password);

@@ -19,8 +19,32 @@ public class UserViewModel extends AndroidViewModel {
         users = userRepository.getAllUsers();
     }
 
-    void insert(User user){
+    public void insert(User user){
         userRepository.insert(user);
+    }
+
+    public LiveData<List<User>> getUsersByEmail(String email){
+        return userRepository.getAllUsersByEmail(email);
+    }
+
+    public Boolean checkUsersEmail(String email){
+        int count = userRepository.countUsersByEmail(email);
+        if(count > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public Boolean checkUsersName(String name){
+        int count = userRepository.countUsersByName(name);
+        if(count > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     LiveData<List<User>> getUsers(){
