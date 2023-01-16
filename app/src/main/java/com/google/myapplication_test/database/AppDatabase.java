@@ -14,11 +14,13 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract CityDao cityDao();
 
-    private static volatile AppDatabase INSTANCE;
+    //private static volatile AppDatabase INSTANCE;
+    private static AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    /*
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
@@ -28,6 +30,15 @@ public abstract class AppDatabase extends RoomDatabase {
                             .build();
                 }
             }
+        }
+        return INSTANCE;
+    }*/
+
+    public static synchronized AppDatabase getDatabase(Context context){
+        if(INSTANCE == null){
+            INSTANCE = Room.databaseBuilder(context,AppDatabase.class,"database-name")
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
         return INSTANCE;
     }

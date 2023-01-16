@@ -30,10 +30,11 @@ public class UserViewModel extends AndroidViewModel {
         return userRepository.getAllUsersByEmail(email);
     }
 
+    /*
     public LiveData<Integer> countUsersByEmail(String email) {
         emailCount.postValue(userRepository.countUsersByEmail(email));
         return emailCount;
-    }
+    }*/
 
     public LiveData<Integer> countUsersByUsername(String username) {
         usernameCount.postValue(userRepository.countUsersByUsername(username));
@@ -42,5 +43,17 @@ public class UserViewModel extends AndroidViewModel {
 
     LiveData<List<User>> getUsers(){
         return users;
+    }
+
+    public LiveData<Integer> countUsersByEmail(final String email) {
+        final MutableLiveData<Integer> emailCount = new MutableLiveData<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                emailCount.postValue(userRepository.countUsersByEmail(email));
+            }
+        });
+        thread.start();
+        return emailCount;
     }
 }

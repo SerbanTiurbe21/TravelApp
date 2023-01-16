@@ -1,6 +1,7 @@
 package com.google.myapplication_test.database;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -8,21 +9,29 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
 public class User {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    Integer id;
+
+    @ColumnInfo(name = "userId")
+    String userId;
+
+    @ColumnInfo(name = "email")
     @NonNull
     public final String email;
+
+    @ColumnInfo(name = "name")
     @NonNull
     public final String name;
+
+    @ColumnInfo(name = "password")
     @NonNull
     public final String password;
-    @Embedded
-    public final City city;
 
-    public User(@NonNull String email, @NonNull String name, @NonNull String password,City city) {
+
+    public User(@NonNull String email, @NonNull String name, @NonNull String password) {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.city = city;
     }
 
     @NonNull
@@ -40,7 +49,20 @@ public class User {
         return password;
     }
 
-    public City getCity() {
-        return city;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
