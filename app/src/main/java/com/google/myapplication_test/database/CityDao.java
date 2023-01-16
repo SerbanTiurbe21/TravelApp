@@ -1,5 +1,6 @@
 package com.google.myapplication_test.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -20,7 +21,7 @@ public interface CityDao {
     void delete(City city);
 
     @Query("SELECT * FROM cities")
-    List<City> getAll();
+    LiveData<List<City>> getAll();
 
     @Query("SELECT * FROM cities WHERE id = :cityId")
     City findById(int cityId);

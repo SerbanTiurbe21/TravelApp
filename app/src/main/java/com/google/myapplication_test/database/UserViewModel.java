@@ -11,7 +11,7 @@ import java.util.List;
 public class UserViewModel extends AndroidViewModel {
 
     private UserRepository userRepository;
-    private LiveData<List<User>> users;
+    LiveData<List<User>> users;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
