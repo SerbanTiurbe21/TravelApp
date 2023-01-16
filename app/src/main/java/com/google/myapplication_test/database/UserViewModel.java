@@ -13,6 +13,8 @@ public class UserViewModel extends AndroidViewModel {
 
     private UserRepository userRepository;
     LiveData<List<User>> users;
+    private MutableLiveData<Integer> usernameCount = new MutableLiveData<>();
+    private MutableLiveData<Integer> emailCount = new MutableLiveData<>();
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -28,25 +30,14 @@ public class UserViewModel extends AndroidViewModel {
         return userRepository.getAllUsersByEmail(email);
     }
 
-    public Boolean checkUsersEmail(String email){
-        int count = userRepository.countUsersByEmail(email);
-        if(count > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+    public LiveData<Integer> countUsersByEmail(String email) {
+        emailCount.postValue(userRepository.countUsersByEmail(email));
+        return emailCount;
     }
 
-    public Boolean checkUsersName(String name){
-        MutableLiveData<Integer> mutableLiveData = userRepository.countUsersByName(name);
-        Integer count = mutableLiveData.getValue();
-        if(count > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+    public LiveData<Integer> countUsersByUsername(String username) {
+        usernameCount.postValue(userRepository.countUsersByUsername(username));
+        return usernameCount;
     }
 
     LiveData<List<User>> getUsers(){

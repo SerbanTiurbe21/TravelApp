@@ -35,12 +35,70 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         setupViews();
-        setRegisterButtonReg();
+        //setRegisterButtonReg();
+        test();
     }
 
+    private void test(){
+        registerButtonReg.setOnClickListener(view -> {
+            String email = emailAddressReg.getText().toString();
+            String username = usernameReg.getText().toString();
+            String password = passwordReg.getText().toString();
+            String repass = repassReg.getText().toString();
+            if (email.equals("") || username.equals("") || password.equals("") || repass.equals("")) {
+                Toast.makeText(RegisterActivity.this, "Please input all the fields!", Toast.LENGTH_SHORT).show();
+            } else {
+                if (!Utility.isValidEmail(email)) {
+                    Toast.makeText(RegisterActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!Utility.isValidPassword(password)) {
+                        Toast.makeText(RegisterActivity.this, "Invalid password!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (!Utility.isValidUsername(username)) {
+                            Toast.makeText(RegisterActivity.this, "Invalid username!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (password.equals(repass)) {
+
+                                userViewModel.countUsersByEmail(email).observe(this, emailCount -> {
+                                    if(emailCount != null){
+                                        if (emailCount > 0) {
+                                            // email already exists
+                                            Toast.makeText(this, "This email is already registered", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            //email doesn't exist, check for the same username
+                                            userViewModel.countUsersByUsername(username).observe(this, usernameCount ->{
+                                                if(usernameCount != null){
+                                                    if (usernameCount > 0){
+                                                        // username already exists
+                                                        Toast.makeText(this, "This username is already taken", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else {
+                                                        // username doesn't exist
+                                                        User user = new User(email, username, password,null);
+                                                        userViewModel.insert(user);
+                                                        Toast.makeText(this, "You have been successfully registered", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Passwords not matching!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /*
     private void setRegisterButtonReg() {
-        Executor executor = Executors.newSingleThreadExecutor();
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         registerButtonReg.setOnClickListener(view -> {
             String email = emailAddressReg.getText().toString();
@@ -76,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
     private void setupViews() {
         emailAddressReg = findViewById(R.id.emailAddressReg);

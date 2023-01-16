@@ -10,14 +10,11 @@ import java.util.List;
 public class UserRepository {
     private UserDao mUserDao;
     private LiveData<List<User>> mAllUsers;
-    private LiveData<List<User>> allUsersByEmail;
-    private MutableLiveData<Integer> countLiveData;
 
     UserRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         mUserDao = db.userDao();
         mAllUsers = mUserDao.getAll();
-        countLiveData = new MutableLiveData<>();
     }
 
     LiveData<List<User>> getAllUsers() {
@@ -28,16 +25,12 @@ public class UserRepository {
         return mUserDao.findByEmail(email);
     }
 
-    public MutableLiveData<Integer> countUsersByName(String name) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            int count = mUserDao.countUsersByName(name);
-            countLiveData.postValue(count);
-        });
-        return countLiveData;
-    }
-
     public int countUsersByEmail(String email) {
         return mUserDao.countUsersByEmail(email);
+    }
+
+    public int countUsersByUsername(String name){
+        return mUserDao.countUsersByName(name);
     }
 
     void insert(User user) {
