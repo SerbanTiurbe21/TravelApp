@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,11 +14,26 @@
         tools:context=".activities.AddDestinationActivity">
 
 
+        <TextView
+            android:id="@+id/textViewAddDestination"
+            android:layout_width="251dp"
+            android:layout_height="99dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="ADD DESTINATION"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/tripNameDest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="44dp"
             android:background="#30ffffff"
             android:drawableStart="@drawable/ic_baseline_drive_file_rename_outline_24"
             android:hint="@string/trip_name"
@@ -26,18 +41,17 @@
             android:padding="15dp"
             android:textAlignment="center"
             android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.023" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewAddDestination" />
 
         <EditText
             android:id="@+id/destinationDest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="40dp"
             android:background="#30ffffff"
             android:drawableStart="@drawable/ic_baseline_where_to_vote_24"
             android:hint="@string/destination"
@@ -45,26 +59,23 @@
             android:padding="15dp"
             android:textAlignment="center"
             android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.116" />
+            app:layout_constraintTop_toBottomOf="@+id/tripNameDest" />
 
         <RadioGroup
             android:id="@+id/radioGroupDest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="76dp"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.204">
+            app:layout_constraintTop_toBottomOf="@+id/destinationDest">
 
             <RadioButton
                 android:id="@+id/cityBreakDest"
@@ -97,31 +108,29 @@
             android:padding="10dp"
             android:valueFrom="0"
             android:valueTo="10000"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.294" />
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupDest" />
 
         <TextView
             android:id="@+id/priceEurDest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@string/price_in_eur"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/slider"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/slider" />
 
         <EditText
             android:id="@+id/arrivingDateDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="72dp"
             android:background="#30ffffff"
             android:clickable="false"
             android:cursorVisible="false"
@@ -129,22 +138,21 @@
             android:drawablePadding="20dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:hint="@string/please_add_the_leaving_date_loew"
+            android:hint="@string/arriving_date"
             android:padding="15dp"
             android:textAlignment="center"
             android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.526"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.412" />
+            app:layout_constraintTop_toBottomOf="@+id/priceEurDest" />
 
         <EditText
             android:id="@+id/leavingDateDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="32dp"
             android:background="#30ffffff"
             android:clickable="false"
             android:cursorVisible="false"
@@ -156,43 +164,39 @@
             android:padding="15dp"
             android:textAlignment="center"
             android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.499" />
+            app:layout_constraintTop_toBottomOf="@+id/arrivingDateDestination" />
 
         <RatingBar
             android:id="@+id/ratingDest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="44dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.597" />
+            app:layout_constraintTop_toBottomOf="@+id/leavingDateDestination" />
 
         <TextView
             android:id="@+id/imagePickDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="28dp"
             android:background="#30ffffff"
             android:drawablePadding="20dp"
             android:hint="@string/please_select_an_image"
-            android:textSize="17sp"
             android:padding="15dp"
             android:textAlignment="center"
             android:textColorHint="@color/white"
+            android:textSize="17sp"
             app:drawableStartCompat="@drawable/ic_baseline_image_24"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.692" />
+            app:layout_constraintTop_toBottomOf="@+id/ratingDest" />
 
         <TextView
             android:id="@+id/testShit"
@@ -206,15 +210,14 @@
 
         <Button
             android:id="@+id/saveButtonDest"
-            android:text="@string/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="48dp"
+            android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.972"
+            app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imagePickDestination"
-            app:layout_constraintVertical_bias="0.902" />
+            app:layout_constraintTop_toBottomOf="@+id/imagePickDestination" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

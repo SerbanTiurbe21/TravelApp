@@ -60,6 +60,7 @@
     <string name="text_serban"><![CDATA[PRESIDENT & CEO \nTiurbe Serban is Preident and CEO of Travel Buddy. Serban has more than 5 years\' leadership experience across a diversity of sectors, including travel, digital media, e-commerce and data.]]></string>
     <string name="john_boris">CHIEF MARKETING OFFICER\nJohn Boris leads TravelBuddy\'s global marketing organization, inclusive of customer acquisition and engagement, performance and brand marketing.</string>
     <string name="seth_kalvert">CHIEF LEGAL OFFICER\nSeth Kalvert has responsibility for all the legal activities of TravelBuddy. Prior to assuming his role as General Counsel in August 2011, Seth held various positions, most recently as Vice President.</string>
+    <string name="arriving_date">Please add the arriving date!</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>
