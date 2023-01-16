@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.google.myapplication_test.R;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.DatabaseHelper;
+import com.google.myapplication_test.database.User;
+import com.google.myapplication_test.database.UserDao;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,15 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-
+/*
     private void loginButtonAction() {
         databaseHelper = new DatabaseHelper(this);
         loginButtonLogin.setOnClickListener(view -> {
             String userEmail = emailAddressLogin.getText().toString();
             StringBuilder username = new StringBuilder();
             Cursor cursor = databaseHelper.getUsername(userEmail);
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 username.append(cursor.getString(1));
             }
             String password = passwordLogin.getText().toString();
@@ -55,10 +57,50 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Sign in successfully!", Toast.LENGTH_SHORT).show();
                         Intent changeActivity = new Intent(LoginActivity.this, MainActivity.class);
                         changeActivity.putExtra("username", (CharSequence) username);
-                        changeActivity.putExtra("email",userEmail);
+                        changeActivity.putExtra("email", userEmail);
                         startActivity(changeActivity);
                     } else {
                         Toast.makeText(LoginActivity.this, "Invalid credentials!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+*/
+    private void setLoginButtonLogin() {
+        loginButtonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] username = {""};
+                String userEmail = emailAddressLogin.getText().toString();
+                String password = passwordLogin.getText().toString();
+                if (userEmail.equals("") || password.equals("")) {
+                    Toast.makeText(LoginActivity.this, "Please enter all the fields!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!isValidEmail(userEmail) || (password.length() < 8 && !isValidPassword(password))) {
+                        Toast.makeText(LoginActivity.this, "Invalid email address or password!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+                        UserDao userDao = appDatabase.userDao();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                User user = userDao.login(userEmail, password);
+                                if (user == null) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else {
+                                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                    intent.putExtra("email", user.getEmail());
+                                    intent.putExtra("username",user.getName());
+                                    startActivity(intent);
+                                }
+                            }
+                        }).start();
                     }
                 }
             }
@@ -87,7 +129,8 @@ public class LoginActivity extends AppCompatActivity {
 
         setupViews();
         registerButtonAction();
-        loginButtonAction();
+        //loginButtonAction();
+        setLoginButtonLogin();
         forgotPassAction();
     }
 }
