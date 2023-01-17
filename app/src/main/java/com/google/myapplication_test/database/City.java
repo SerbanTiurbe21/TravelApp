@@ -1,6 +1,7 @@
 package com.google.myapplication_test.database;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,40 +11,64 @@ import java.util.Date;
 public class City {
     @PrimaryKey(autoGenerate = true)
     public int id;
+
+    @ColumnInfo(name = "tripName")
     @NonNull
-    public String trip_name;
+    public String tripName;
+
+    @ColumnInfo(name = "destination")
     @NonNull
     public String destination;
+
+    @ColumnInfo(name = "tripType")
     @NonNull
-    public String trip_type;
+    public String tripType;
+
+    @ColumnInfo(name = "price")
     @NonNull
     public float price;
+
+    @ColumnInfo(name = "startDate")
     @NonNull
-    public String start_date;
+    public String startDate;
+
+    @ColumnInfo(name = "endDate")
     @NonNull
-    public String end_date;
+    public String endDate;
+
+    @ColumnInfo(name = "rating")
     @NonNull
     public float rating;
+
+    @ColumnInfo(name = "photoUri")
     @NonNull
-    public String photo_uri;
+    public String photoUri;
+
+    @ColumnInfo(name = "temperature")
     @NonNull
     public float temperature;
+
+    @ColumnInfo(name = "latitude")
     @NonNull
     public float latitude;
+
+    @ColumnInfo(name = "longitude")
     @NonNull
     public float longitude;
+
+    @ColumnInfo(name = "isFavourite")
     @NonNull
     public boolean isFavourite;
 
-    public City(@NonNull String trip_name, @NonNull String destination, @NonNull String trip_type, @NonNull float price, @NonNull String start_date, @NonNull String end_date, @NonNull float rating, @NonNull String photo_uri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
-        this.trip_name = trip_name;
+    public City(@NonNull String tripName, @NonNull String destination, @NonNull String tripType, @NonNull float price, @NonNull String startDate, @NonNull String endDate, @NonNull float rating, @NonNull String photoUri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
+        this.tripName = tripName;
         this.destination = destination;
-        this.trip_type = trip_type;
+        this.tripType = tripType;
         this.price = price;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.rating = rating;
-        this.photo_uri = photo_uri;
+        this.photoUri = photoUri;
         this.temperature = temperature;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -57,7 +82,7 @@ public class City {
 
     @NonNull
     public String getTrip_name() {
-        return trip_name;
+        return tripName;
     }
 
     @NonNull
@@ -67,7 +92,7 @@ public class City {
 
     @NonNull
     public String getTrip_type() {
-        return trip_type;
+        return tripType;
     }
 
     @NonNull
@@ -77,12 +102,12 @@ public class City {
 
     @NonNull
     public String getStart_date() {
-        return start_date;
+        return startDate;
     }
 
     @NonNull
     public String getEnd_date() {
-        return end_date;
+        return endDate;
     }
 
     @NonNull
@@ -92,7 +117,7 @@ public class City {
 
     @NonNull
     public String getPhoto_uri() {
-        return photo_uri;
+        return photoUri;
     }
 
     @NonNull

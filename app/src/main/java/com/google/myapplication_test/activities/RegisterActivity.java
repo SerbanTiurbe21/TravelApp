@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = usernameReg.getText().toString();
                 String password = passwordReg.getText().toString();
                 String repass = repassReg.getText().toString();
-                final User user = new User(email, username, password);
+                final User user = new User(email,email, username, password);
                 if (validateInputs(email, username, password, repass)) {
                     if (password.equals(repass)) {
                         if (Utility.isValidEmail(email)) {
@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             new Thread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    User user1 = new User(email,username,password);
+                                                    User user1 = new User(email,email,username,password);
                                                     userDao.insert(user1);
                                                 }
                                             }).start();

@@ -28,7 +28,8 @@ public class User {
     public final String password;
 
 
-    public User(@NonNull String email, @NonNull String name, @NonNull String password) {
+    public User(@NonNull String userId,@NonNull String email, @NonNull String name, @NonNull String password) {
+        this.userId = userId;
         this.email = email;
         this.name = name;
         this.password = password;
