@@ -43,4 +43,7 @@ public interface UserDao {
 
     @Query("SELECT COUNT(*) FROM users WHERE email = :email")
     int countUsersByEmail(String email);
+
+    @Query("UPDATE users SET password = :newPassword WHERE email = :email")
+    void updatePassword(String email, String newPassword);
 }
