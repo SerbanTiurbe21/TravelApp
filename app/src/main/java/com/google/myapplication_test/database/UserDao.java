@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
 public interface UserDao {
     @Insert
     void insert(User user);
+
+    @Insert
+    void insertCity(User user, City city);
 
     @Update
     void update(User user);
@@ -46,4 +50,5 @@ public interface UserDao {
 
     @Query("UPDATE users SET password = :newPassword WHERE email = :email")
     void updatePassword(String email, String newPassword);
+
 }
