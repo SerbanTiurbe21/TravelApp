@@ -34,39 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-/*
-    private void loginButtonAction() {
-        databaseHelper = new DatabaseHelper(this);
-        loginButtonLogin.setOnClickListener(view -> {
-            String userEmail = emailAddressLogin.getText().toString();
-            StringBuilder username = new StringBuilder();
-            Cursor cursor = databaseHelper.getUsername(userEmail);
-            while (cursor.moveToNext()) {
-                username.append(cursor.getString(1));
-            }
-            String password = passwordLogin.getText().toString();
-            if (userEmail.equals("") || password.equals("")) {
-                Toast.makeText(LoginActivity.this, "Please enter all the fields!", Toast.LENGTH_SHORT).show();
-            } else {
-                if (!isValidEmail(userEmail) || (password.length() < 8 && !isValidPassword(password))) {
-                    Toast.makeText(LoginActivity.this, "Invalid email address or password!", Toast.LENGTH_SHORT).show();
-                } else {
-                    //int checkUserPassword = db.userDao().findByEmailAndPassword(emailAddressLogin.getText().toString(),passwordLogin.getText().toString());
-                    Boolean checkUserPassword = databaseHelper.checkPasswordForLogin(userEmail, password);
-                    if (checkUserPassword) {
-                        Toast.makeText(LoginActivity.this, "Sign in successfully!", Toast.LENGTH_SHORT).show();
-                        Intent changeActivity = new Intent(LoginActivity.this, MainActivity.class);
-                        changeActivity.putExtra("username", (CharSequence) username);
-                        changeActivity.putExtra("email", userEmail);
-                        startActivity(changeActivity);
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Invalid credentials!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-    }
-*/
+
     private void setLoginButtonLogin() {
         loginButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         }).start();
+                        appDatabase.close();
                     }
                 }
             }
@@ -129,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
 
         setupViews();
         registerButtonAction();
-        //loginButtonAction();
         setLoginButtonLogin();
         forgotPassAction();
     }
