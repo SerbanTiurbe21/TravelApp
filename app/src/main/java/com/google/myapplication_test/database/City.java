@@ -12,6 +12,10 @@ public class City {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    @NonNull
+    @ColumnInfo(name = "userId")
+    public String userId;
+
     @ColumnInfo(name = "tripName")
     @NonNull
     public String tripName;
@@ -60,7 +64,8 @@ public class City {
     @NonNull
     public boolean isFavourite;
 
-    public City(@NonNull String tripName, @NonNull String destination, @NonNull String tripType, @NonNull float price, @NonNull String startDate, @NonNull String endDate, @NonNull float rating, @NonNull String photoUri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
+    public City(@NonNull String userId, @NonNull String tripName, @NonNull String destination, @NonNull String tripType, @NonNull float price, @NonNull String startDate, @NonNull String endDate, @NonNull float rating, @NonNull String photoUri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
+        this.userId = userId;
         this.tripName = tripName;
         this.destination = destination;
         this.tripType = tripType;
@@ -75,13 +80,17 @@ public class City {
         this.isFavourite = isFavourite;
     }
 
-    @NonNull
     public int getId() {
         return id;
     }
 
     @NonNull
-    public String getTrip_name() {
+    public String getUserId() {
+        return userId;
+    }
+
+    @NonNull
+    public String getTripName() {
         return tripName;
     }
 
@@ -91,52 +100,46 @@ public class City {
     }
 
     @NonNull
-    public String getTrip_type() {
+    public String getTripType() {
         return tripType;
     }
 
-    @NonNull
     public float getPrice() {
         return price;
     }
 
     @NonNull
-    public String getStart_date() {
+    public String getStartDate() {
         return startDate;
     }
 
     @NonNull
-    public String getEnd_date() {
+    public String getEndDate() {
         return endDate;
     }
 
-    @NonNull
     public float getRating() {
         return rating;
     }
 
     @NonNull
-    public String getPhoto_uri() {
+    public String getPhotoUri() {
         return photoUri;
     }
 
-    @NonNull
     public float getTemperature() {
         return temperature;
     }
 
-    @NonNull
     public float getLatitude() {
         return latitude;
     }
 
-    @NonNull
     public float getLongitude() {
         return longitude;
     }
 
-    @NonNull
-    public boolean getIsFavourite(){
+    public boolean isFavourite() {
         return isFavourite;
     }
 }
