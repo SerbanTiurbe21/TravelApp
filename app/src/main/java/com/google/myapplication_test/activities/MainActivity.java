@@ -18,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.myapplication_test.R;
 import com.google.myapplication_test.databinding.ActivityMainBinding;
+import com.google.myapplication_test.fragments.trip.HomeFragment;
+
+import java.nio.BufferUnderflowException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         String email = intent.getStringExtra("email");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("email",email);
+        HomeFragment homeFragment = new HomeFragment();
+        homeFragment.setArguments(bundle);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -62,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        navController.navigate(R.id.nav_home, bundle);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 

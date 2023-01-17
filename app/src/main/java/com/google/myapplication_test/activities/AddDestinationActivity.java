@@ -18,9 +18,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.slider.Slider;
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.database.AppDatabase;
+import com.google.myapplication_test.database.City;
+import com.google.myapplication_test.database.CityDao;
+import com.google.myapplication_test.database.User;
+import com.google.myapplication_test.database.UserDao;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,16 +51,55 @@ public class AddDestinationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_destination);
 
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email");
+
         setupViews();
         setImagePickDestination();
         setupCalendar(arrivingDateDestination);
         setSlider();
-        String radioButtonValue = testShit.getText().toString();
         setRatingDest();
-        String arrivingDate = arrivingDateDestination.getText().toString();
-        String leavingDate = leavingDateDestination.getText().toString();
         //RAMANE SA LE ADAUG IN BAZA DE DATE
-        setSaveButtonDest();
+        setSaveButtonDest(email);
+    }
+
+
+    private void setSaveButtonDest(String mail){
+        saveButtonDest.setOnClickListener(view -> {
+            // aici le salvez in baza de date
+            AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+            UserDao userDao = appDatabase.userDao();
+            CityDao cityDao = appDatabase.cityDao();
+            String tripName = tripNameDest.getText().toString();
+            String destination = destinationDest.getText().toString();
+            String radioButtonValue = testShit.getText().toString();
+            String price = priceEurDest.getText().toString();
+            String arrivingDate = arrivingDateDestination.getText().toString();
+            String leavingDate = leavingDateDestination.getText().toString();
+            String stars = String.valueOf(rateValue);
+            String linkImage = String.valueOf(selectedImageUri);
+            City city = new City(mail,tripName,destination,radioButtonValue,Float.parseFloat(getValue(price)),arrivingDate,leavingDate,Float.parseFloat(stars),linkImage,0,0,0,false);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    User user = userDao.email(mail);
+                    if(user == null){
+                        runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this, "Data was not inserted", Toast.LENGTH_SHORT).show());
+                    }
+                    else{
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cityDao.insert(city);
+                            }
+                        }).start();
+                        runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this,"Data was inserted",Toast.LENGTH_SHORT).show());
+                    }
+                }
+            }).start();
+            appDatabase.close();
+        });
     }
 
     private void setupCalendar(EditText myView){
@@ -213,9 +258,9 @@ public class AddDestinationActivity extends AppCompatActivity {
         });
     }
 
-    private void setSaveButtonDest(){
-        saveButtonDest.setOnClickListener(view -> {
-            // aici le salvez in baza de date
-        });
+    private String getValue(String str) {
+        String[] parts = str.split(":");
+        return parts[parts.length-1].trim();
     }
+
 }

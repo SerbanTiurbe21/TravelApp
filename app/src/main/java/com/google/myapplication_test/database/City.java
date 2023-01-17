@@ -1,5 +1,7 @@
 package com.google.myapplication_test.database;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -49,22 +51,18 @@ public class City {
     public String photoUri;
 
     @ColumnInfo(name = "temperature")
-    @NonNull
     public float temperature;
 
     @ColumnInfo(name = "latitude")
-    @NonNull
     public float latitude;
 
     @ColumnInfo(name = "longitude")
-    @NonNull
     public float longitude;
 
     @ColumnInfo(name = "isFavourite")
-    @NonNull
     public boolean isFavourite;
 
-    public City(@NonNull String userId, @NonNull String tripName, @NonNull String destination, @NonNull String tripType, @NonNull float price, @NonNull String startDate, @NonNull String endDate, @NonNull float rating, @NonNull String photoUri, @NonNull float temperature, @NonNull float latitude, @NonNull float longitude, @NonNull boolean isFavourite) {
+    public City(@NonNull String userId, @NonNull String tripName, @NonNull String destination, @NonNull String tripType, @NonNull float price, @NonNull String startDate, @NonNull String endDate, @NonNull float rating, @NonNull String photoUri, float temperature, float latitude,float longitude, boolean isFavourite) {
         this.userId = userId;
         this.tripName = tripName;
         this.destination = destination;

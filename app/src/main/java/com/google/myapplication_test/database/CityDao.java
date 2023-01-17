@@ -23,6 +23,6 @@ public interface CityDao {
     @Query("SELECT * FROM cities")
     LiveData<List<City>> getAll();
 
-    @Query("SELECT * FROM cities WHERE id = :cityId")
+    @Query("SELECT * FROM cities WHERE userId = :cityId")
     City findById(int cityId);
 }

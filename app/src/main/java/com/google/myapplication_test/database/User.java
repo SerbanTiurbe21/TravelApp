@@ -7,9 +7,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "users",foreignKeys = @ForeignKey(entity = City.class,
-        parentColumns = "userId",
-        childColumns = "userId"))
+@Entity(tableName = "users")
 public class User {
     @PrimaryKey(autoGenerate = true)
     Integer id;

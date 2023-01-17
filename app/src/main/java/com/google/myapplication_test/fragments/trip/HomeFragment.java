@@ -6,13 +6,23 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.myapplication_test.R;
 import com.google.myapplication_test.activities.AddDestinationActivity;
+import com.google.myapplication_test.database.AppDatabase;
+import com.google.myapplication_test.database.City;
+import com.google.myapplication_test.database.UserDao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.crypto.Cipher;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +32,7 @@ import com.google.myapplication_test.activities.AddDestinationActivity;
 public class HomeFragment extends Fragment {
 
     Button addTripButtonHome;
+    String email;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +64,11 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            email = bundle.getString("email");
+            Log.d("email", email);
+        }
     }
 
     @Override
@@ -63,16 +79,29 @@ public class HomeFragment extends Fragment {
         Button button = (Button) view.findViewById(R.id.addTripButtonHome);
         button.setOnClickListener(myView -> {
             Intent intent = new Intent(getActivity(),AddDestinationActivity.class);
+            intent.putExtra("email",email);
             startActivity(intent);
         });
 
+        getCities(email);
         return view;
     }
 
-    /*
-    private void setupViews(){
-        addTripButtonHome = (Button) getView().findViewById(R.id.addTripButtonHome);
-    }*/
+    private void getCities(String userId){
+        AppDatabase appDatabase = AppDatabase.getDatabase(requireContext());
+        UserDao userDao = appDatabase.userDao();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<City> myList = userDao.getCitiesForUser(userId);
+                for(City s: myList){
+                    Log.d("City",s.destination);
+                    Log.d("isFav", String.valueOf(s.isFavourite));
+                }
+            }
+        }).start();
+        appDatabase.close();
+    }
 
     private void setAddTripButtonHome(){
         addTripButtonHome.setOnClickListener(view -> {
