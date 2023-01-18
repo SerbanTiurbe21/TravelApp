@@ -115,6 +115,10 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     private void setAddTripButtonHome(){
         addTripButtonHome.setOnClickListener(view -> {
