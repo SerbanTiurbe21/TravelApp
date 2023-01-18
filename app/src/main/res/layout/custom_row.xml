@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24sp"
-    android:background="@drawable/gradient1"
+    android:padding="24dp"
+    android:layout_margin="10dp"
+    android:background="#30ffffff"
     >
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,22 +48,23 @@
         android:text="@string/price"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="0.971" />
 
     <TextView
         android:id="@+id/ratingCustomRow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="84dp"
+        android:layout_height="36dp"
+        android:drawableRight="@drawable/ic_baseline_star_24"
         android:text="@string/rating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/bookmarkIconCustomRow"

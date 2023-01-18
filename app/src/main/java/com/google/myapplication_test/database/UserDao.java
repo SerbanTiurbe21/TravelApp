@@ -53,4 +53,5 @@ public interface UserDao {
 
     @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE u.userId = :userId")
     List<City> getCitiesForUser(String userId);
+
 }

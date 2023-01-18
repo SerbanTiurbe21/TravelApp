@@ -34,14 +34,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailAddressReg, usernameReg, passwordReg, repassReg;
     Button registerButtonReg;
-    DatabaseHelper databaseHelper;
-    private UserViewModel userViewModel;
-
-    private AppDatabase mDb;
-    private UserDao mUserDao;
-    private UserViewModel mUserViewModel;
-    private Thread thread;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,55 +44,49 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register() {
-        registerButtonReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = emailAddressReg.getText().toString();
-                String username = usernameReg.getText().toString();
-                String password = passwordReg.getText().toString();
-                String repass = repassReg.getText().toString();
-                final User user = new User(email,email, username, password);
-                if (validateInputs(email, username, password, repass)) {
-                    if (password.equals(repass)) {
-                        if (Utility.isValidEmail(email)) {
-                            if (Utility.isValidPassword(username)) {
-                                if (Utility.isValidPassword(password)) {
-                                    AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
-                                    UserDao userDao = appDatabase.userDao();
-                                    new Thread(() -> {
-                                        User user12 = userDao.email(email);
-                                        if(user12 != null){
-                                            runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Email is already in use", Toast.LENGTH_SHORT).show());
-                                        }
-                                        else{
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    User user1 = new User(email,email,username,password);
-                                                    userDao.insert(user1);
-                                                }
-                                            }).start();
-                                            runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show());
-                                            Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    }).start();
-                                    appDatabase.close();
-                                } else {
-                                    Toast.makeText(RegisterActivity.this, "Invalid password!", Toast.LENGTH_SHORT).show();
-                                }
+        registerButtonReg.setOnClickListener(view -> {
+            String email = emailAddressReg.getText().toString();
+            String username = usernameReg.getText().toString();
+            String password = passwordReg.getText().toString();
+            String repass = repassReg.getText().toString();
+            final User user = new User(email,email, username, password);
+            if (validateInputs(email, username, password, repass)) {
+                if (password.equals(repass)) {
+                    if (Utility.isValidEmail(email)) {
+                        if (Utility.isValidPassword(username)) {
+                            if (Utility.isValidPassword(password)) {
+                                AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+                                UserDao userDao = appDatabase.userDao();
+                                new Thread(() -> {
+                                    User user12 = userDao.email(email);
+                                    if(user12 != null){
+                                        runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Email is already in use", Toast.LENGTH_SHORT).show());
+                                    }
+                                    else{
+                                        new Thread(() -> {
+                                            User user1 = new User(email,email,username,password);
+                                            userDao.insert(user1);
+                                        }).start();
+                                        runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show());
+                                        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }).start();
+                                appDatabase.close();
                             } else {
-                                Toast.makeText(RegisterActivity.this, "Invalid username!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Invalid password!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Invalid username!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(RegisterActivity.this, "Passwords not matching!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Please input all the fields!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Passwords not matching!", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(RegisterActivity.this, "Please input all the fields!", Toast.LENGTH_SHORT).show();
             }
         });
     }

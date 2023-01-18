@@ -65,6 +65,8 @@
     <string name="_destination">-Destination-</string>
     <string name="price">Price</string>
     <string name="rating">Rating</string>
+    <string name="no_trips">No trips!</string>
+    <string name="your_trips">Your trips!</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>

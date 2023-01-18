@@ -25,4 +25,7 @@ public interface CityDao {
 
     @Query("SELECT * FROM cities WHERE userId = :cityId")
     City findById(int cityId);
+
+    @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE u.userId = :userId")
+    LiveData<List<City>> getAllCities(String userId);
 }

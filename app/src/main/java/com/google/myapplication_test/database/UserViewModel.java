@@ -30,12 +30,6 @@ public class UserViewModel extends AndroidViewModel {
         return userRepository.getAllUsersByEmail(email);
     }
 
-    /*
-    public LiveData<Integer> countUsersByEmail(String email) {
-        emailCount.postValue(userRepository.countUsersByEmail(email));
-        return emailCount;
-    }*/
-
     public LiveData<Integer> countUsersByUsername(String username) {
         usernameCount.postValue(userRepository.countUsersByUsername(username));
         return usernameCount;
@@ -56,4 +50,6 @@ public class UserViewModel extends AndroidViewModel {
         thread.start();
         return emailCount;
     }
+
+
 }

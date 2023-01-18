@@ -3,7 +3,13 @@ package com.google.myapplication_test.fragments.trip;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -17,6 +23,7 @@ import com.google.myapplication_test.R;
 import com.google.myapplication_test.activities.AddDestinationActivity;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.City;
+import com.google.myapplication_test.database.CityViewModel;
 import com.google.myapplication_test.database.UserDao;
 
 import java.util.ArrayList;
@@ -33,6 +40,10 @@ public class HomeFragment extends Fragment {
 
     Button addTripButtonHome;
     String email;
+    private RecyclerView tripRecyclerView;
+    private List<Trip> tripList;
+    private CityViewModel cityViewModel;
+    private TripAdapter tripAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,25 +94,27 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        getCities(email);
+        tripRecyclerView = view.findViewById(R.id.recyclerView);
+        tripAdapter = new TripAdapter(getContext());
+        tripRecyclerView.setAdapter(tripAdapter);
+        tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        cityViewModel = new ViewModelProvider(this).get(CityViewModel.class);
+        cityViewModel.getAllCities().observe(getViewLifecycleOwner(), new Observer<List<City>>() {
+            @Override
+            public void onChanged(List<City> cities) {
+                List<Trip> myTrips = new ArrayList<>();
+                for(City c: cities){
+                    Trip trip = new Trip(c.getTripName(),c.getDestination(),c.getPhotoUri(),c.getPrice(),c.getRating(),c.isFavourite());
+                    myTrips.add(trip);
+                }
+                tripAdapter.setTripList(myTrips);
+            }
+        });
+
         return view;
     }
 
-    private void getCities(String userId){
-        AppDatabase appDatabase = AppDatabase.getDatabase(requireContext());
-        UserDao userDao = appDatabase.userDao();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<City> myList = userDao.getCitiesForUser(userId);
-                for(City s: myList){
-                    Log.d("City",s.destination);
-                    Log.d("isFav", String.valueOf(s.isFavourite));
-                }
-            }
-        }).start();
-        appDatabase.close();
-    }
 
     private void setAddTripButtonHome(){
         addTripButtonHome.setOnClickListener(view -> {
@@ -109,4 +122,5 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
     }
+
 }

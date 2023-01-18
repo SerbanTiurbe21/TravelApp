@@ -13,6 +13,7 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
     private final ImageView imageView2, bookmarkIconCustomRow;
     private final TextView tripNameCustomRow, destinationCustomRow, textView9, ratingCustomRow;
+    private int mPosition;
 
     public TripViewHolder(@NonNull View itemView) {
         super(itemView);
