@@ -239,23 +239,15 @@ public class AddDestinationActivity extends AppCompatActivity {
     }
 
     private void setSlider(){
-        slider.addOnChangeListener(new Slider.OnChangeListener() {
-            @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                int index = String.valueOf(value).indexOf(".");
-                String text = "Price in EUR: ";
-                priceEurDest.setText(text + String.valueOf(value).substring(0,index));
-            }
+        slider.addOnChangeListener((slider, value, fromUser) -> {
+            int index = String.valueOf(value).indexOf(".");
+            String text = "Price in EUR: ";
+            priceEurDest.setText(text + String.valueOf(value).substring(0,index));
         });
     }
 
     private void setRatingDest(){
-        ratingDest.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                rateValue = ratingBar.getRating();
-            }
-        });
+        ratingDest.setOnRatingBarChangeListener((ratingBar, v, b) -> rateValue = ratingBar.getRating());
     }
 
     private String getValue(String str) {
