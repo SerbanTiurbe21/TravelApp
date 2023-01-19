@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment{
             }
             tripAdapter.setTripList(myTrips);
         });
-
         return view;
     }
 

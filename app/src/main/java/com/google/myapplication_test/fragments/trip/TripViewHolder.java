@@ -19,11 +19,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.imageView2 = itemView.findViewById(R.id.imageView2);
         this.bookmarkIconCustomRow = itemView.findViewById(R.id.bookmarkIconCustomRow);
-        /*
-        bookmarkIconCustomRow.setOnClickListener(view -> {
-            bookmarkIconCustomRow.setImageResource(R.drawable.ic_baseline_bookmark__gold_24);
-            // aici sa fac update in baza de date
-        });*/
         this.tripNameCustomRow = itemView.findViewById(R.id.tripNameCustomRow);
         this.destinationCustomRow = itemView.findViewById(R.id.destinationCustomRow);
         this.textView9 = itemView.findViewById(R.id.textView9);

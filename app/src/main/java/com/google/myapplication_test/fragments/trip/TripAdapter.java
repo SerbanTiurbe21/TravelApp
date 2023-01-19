@@ -15,6 +15,7 @@ import com.google.myapplication_test.activities.EditTripActivity;
 import com.google.myapplication_test.activities.LoginActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
@@ -27,6 +28,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
     }
 
     public void setTripList(List<Trip> trips){
+        tripList = new ArrayList<>();
+        tripList.clear();
         tripList = trips;
         notifyDataSetChanged();
     }
@@ -55,7 +58,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
             holder.itemView.setOnLongClickListener(view -> {
                 Intent intent = new Intent(context, EditTripActivity.class);
-                //intent.putExtra("imageLink",holder.getImageView2().toString());
                 intent.putExtra("bookmarkItem", currentTrip.isBookmarked());
                 intent.putExtra("tripName",currentTrip.getTripName());
                 intent.putExtra("destination",currentTrip.getDestination());
@@ -77,5 +79,15 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
             return tripList.size();
         }
         return 0;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

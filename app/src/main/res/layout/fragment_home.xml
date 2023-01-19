@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.trip.HomeFragment"
-    android:background="@drawable/gradient1">
+    android:background="@drawable/gradient1"
+    tools:context=".fragments.trip.HomeFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,9 +19,9 @@
 
     <Button
         android:id="@+id/addTripButtonHome"
-        android:text="@string/add_a_trip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/add_a_trip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
@@ -41,9 +41,8 @@
 
     <TextView
         android:id="@+id/textInvisbile"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
