@@ -1,7 +1,5 @@
 package com.google.myapplication_test.fragments.trip;
 
-import androidx.annotation.NonNull;
-
 public class Trip {
     private final String tripName;
     private final String destination;
@@ -9,14 +7,16 @@ public class Trip {
     private final float price;
     private final float rating;
     private final boolean isBookmarked;
+    private final String email;
 
-    public Trip(String tripName, String destination, String imageUrl, float price, float rating, boolean isBookmarked) {
+    public Trip(String tripName, String destination, String imageUrl, float price, float rating, boolean isBookmarked, String email) {
         this.tripName = tripName;
         this.destination = destination;
         this.imageUrl = imageUrl;
         this.price = price;
         this.rating = rating;
         this.isBookmarked = isBookmarked;
+        this.email = email;
     }
 
     public String getTripName() {
@@ -41,6 +41,10 @@ public class Trip {
 
     public boolean isBookmarked() {
         return isBookmarked;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

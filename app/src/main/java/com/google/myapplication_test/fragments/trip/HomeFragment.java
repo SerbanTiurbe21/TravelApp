@@ -3,11 +3,7 @@ package com.google.myapplication_test.fragments.trip;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,15 +17,11 @@ import android.widget.TextView;
 
 import com.google.myapplication_test.R;
 import com.google.myapplication_test.activities.AddDestinationActivity;
-import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityViewModel;
-import com.google.myapplication_test.database.UserDao;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.crypto.Cipher;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,8 +30,9 @@ import javax.crypto.Cipher;
  */
 public class HomeFragment extends Fragment{
 
+    TextView textInvisible;
     Button addTripButtonHome;
-    String email;
+    static String email;
     private RecyclerView tripRecyclerView;
     private List<Trip> tripList;
     private CityViewModel cityViewModel;
@@ -76,10 +69,12 @@ public class HomeFragment extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        Bundle bundle1 = new Bundle();
+
         Bundle bundle = getArguments();
         if (bundle != null) {
-            email = bundle.getString("email");
-            Log.d("email", email);
+           email = bundle.getString("email");
         }
     }
 
@@ -89,6 +84,7 @@ public class HomeFragment extends Fragment{
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         Button button = (Button) view.findViewById(R.id.addTripButtonHome);
+
         button.setOnClickListener(myView -> {
             Intent intent = new Intent(getActivity(),AddDestinationActivity.class);
             intent.putExtra("email",email);
@@ -96,14 +92,14 @@ public class HomeFragment extends Fragment{
         });
 
         tripRecyclerView = view.findViewById(R.id.recyclerView);
-        tripAdapter = new TripAdapter(getContext(),email);
+        tripAdapter = new TripAdapter(getContext());
         tripRecyclerView.setAdapter(tripAdapter);
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         cityViewModel = new ViewModelProvider(this).get(CityViewModel.class);
         cityViewModel.getAllCities().observe(getViewLifecycleOwner(), cities -> {
             for(City c: cities){
-                Trip trip = new Trip(c.getTripName(),c.getDestination(),c.getPhotoUri(),c.getPrice(),c.getRating(),c.isFavourite());
+                Trip trip = new Trip(c.getTripName(),c.getDestination(),c.getPhotoUri(),c.getPrice(),c.getRating(),c.isFavourite(),c.getUserId());
                 myTrips.add(trip);
             }
             tripAdapter.setTripList(myTrips);
@@ -123,4 +119,5 @@ public class HomeFragment extends Fragment{
             startActivity(intent);
         });
     }
+
 }

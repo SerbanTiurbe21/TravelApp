@@ -12,7 +12,7 @@ import com.google.myapplication_test.R;
 public class TripViewHolder extends RecyclerView.ViewHolder {
 
     private final ImageView imageView2, bookmarkIconCustomRow;
-    private final TextView tripNameCustomRow, destinationCustomRow, textView9, ratingCustomRow;
+    private final TextView tripNameCustomRow, destinationCustomRow, textView9, ratingCustomRow, emailCustomRow;
     private int mPosition;
 
     public TripViewHolder(@NonNull View itemView) {
@@ -27,7 +27,7 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         this.destinationCustomRow = itemView.findViewById(R.id.destinationCustomRow);
         this.textView9 = itemView.findViewById(R.id.textView9);
         this.ratingCustomRow = itemView.findViewById(R.id.ratingCustomRow);
-
+        this.emailCustomRow = itemView.findViewById(R.id.emailCustomRow);
     }
 
     public ImageView getImageView2() {
@@ -52,5 +52,9 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
     public TextView getRatingCustomRow() {
         return ratingCustomRow;
+    }
+
+    public TextView getEmailCustomRow() {
+        return emailCustomRow;
     }
 }

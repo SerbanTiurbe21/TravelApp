@@ -29,7 +29,9 @@ import com.google.myapplication_test.database.User;
 import com.google.myapplication_test.database.UserDao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AddDestinationActivity extends AppCompatActivity {
@@ -53,13 +55,13 @@ public class AddDestinationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
+        Log.d("caca",email);
 
         setupViews();
         setImagePickDestination();
         setupCalendar(arrivingDateDestination);
         setSlider();
         setRatingDest();
-        //RAMANE SA LE ADAUG IN BAZA DE DATE
         setSaveButtonDest(email);
     }
 

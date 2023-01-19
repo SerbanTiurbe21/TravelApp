@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ import com.google.myapplication_test.database.UserDao;
 
 public class EditTripActivity extends AppCompatActivity {
 
-    private EditText tripNameEdit,destinationEdit;
+    private EditText tripNameEdit, destinationEdit;
     private TextView priceEurEdit, imagePickEdit, testShit2;
     private Slider sliderEdit;
     private RatingBar ratingEdit;
@@ -35,6 +36,7 @@ public class EditTripActivity extends AppCompatActivity {
     private Float rateValue;
     private Uri selectedImageUri;
     static final int SELECT_IMAGE_CODE = 1;
+    private String valuePrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,39 +53,36 @@ public class EditTripActivity extends AppCompatActivity {
         Float rating = Float.parseFloat(intent.getStringExtra("rating"));
         String email = intent.getStringExtra("email");
 
-        String updatedTripName = tripNameEdit.getText().toString();
-        String updatedDestination = destinationEdit.getText().toString();
-        String updatedPrice = priceEurEdit.getText().toString();
-        String updatedRating = String.valueOf(rateValue);
-
-        updateViews(tripName,destination,price,rating,bookMarkItem);
+        updateViews(tripName, destination, price, rating, bookMarkItem);
         updateImage();
         setSlider();
         setRating();
         setImagePickEdit();
-        setSaveButtonEdit(email,updatedTripName,updatedDestination,Float.parseFloat(updatedPrice),Float.parseFloat(updatedRating));
+        setSaveButtonEdit(email, destination);
     }
 
-    private void setSaveButtonEdit(String mail, String tripName, String destination, Float price, Float rating){
+    private void setSaveButtonEdit(String mail, String destination) {
         saveButtonEdit.setOnClickListener(view -> {
+            String updatedTripName = tripNameEdit.getText().toString();
+            String updatedDestination = destinationEdit.getText().toString();
+            String updatedPrice = priceEurEdit.getText().toString();
+            String updatedRating = String.valueOf(rateValue);
             AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
             UserDao userDao = appDatabase.userDao();
             CityDao cityDao = appDatabase.cityDao();
             new Thread(() -> {
                 // sa bag aici mail-ul
                 User user = userDao.email(mail);
-                if(user == null){
-                    runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was not updated", Toast.LENGTH_SHORT).show());
-                }
-                else {
+                if (user == null) {
+                    runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was not updated1", Toast.LENGTH_SHORT).show());
+                } else {
                     new Thread(() -> {
-                        City city = cityDao.getCityByDestinationAndUserEmail(destination,mail);
-                        if(city == null){
-                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was not updated", Toast.LENGTH_SHORT).show());
-                        }
-                        else{
-                            cityDao.updateCity(tripName,destination,price,rating,mail, String.valueOf(selectedImageUri));
-                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was updated", Toast.LENGTH_SHORT).show());
+                        City city = cityDao.getCityByDestinationAndUserEmail(destination, mail);
+                        if (city == null) {
+                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was not updated2", Toast.LENGTH_SHORT).show());
+                        } else {
+                            cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), mail, String.valueOf(selectedImageUri));
+                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was updated3", Toast.LENGTH_SHORT).show());
                         }
                     }).start();
                 }
@@ -91,7 +90,7 @@ public class EditTripActivity extends AppCompatActivity {
         });
     }
 
-    private void setupViews(){
+    private void setupViews() {
         tripNameEdit = findViewById(R.id.tripNameEdit);
         destinationEdit = findViewById(R.id.destinationEdit);
         sliderEdit = findViewById(R.id.sliderEdit);
@@ -99,9 +98,10 @@ public class EditTripActivity extends AppCompatActivity {
         bookmarkEdit = findViewById(R.id.bookmarkEdit);
         priceEurEdit = findViewById(R.id.priceEurEdit);
         imagePickEdit = findViewById(R.id.imagePickEdit);
+        saveButtonEdit = findViewById(R.id.saveButtonEdit);
     }
 
-    private void updateViews(String tripName, String destination, Float price, Float rating, Boolean isBookmarked){
+    private void updateViews(String tripName, String destination, Float price, Float rating, Boolean isBookmarked) {
         tripNameEdit.setText(tripName);
         destinationEdit.setText(destination);
         sliderEdit.setValue(price);
@@ -109,45 +109,49 @@ public class EditTripActivity extends AppCompatActivity {
         bookmarkEdit.setImageResource(isBookmarked ? R.drawable.ic_baseline_bookmark__gold_24 : R.drawable.ic_baseline_bookmark_24);
     }
 
-    private void updateImage(){
+    private void updateImage() {
         bookmarkEdit.setOnClickListener(view -> bookmarkEdit.setImageResource(R.drawable.ic_baseline_bookmark__gold_24));
     }
 
-    private void setSlider(){
+    private void setSlider() {
         sliderEdit.addOnChangeListener((slider, value, fromUser) -> {
             int index = String.valueOf(value).indexOf(".");
             String text = "Price in EUR: ";
-            priceEurEdit.setText(text + String.valueOf(value).substring(0,index));
+            priceEurEdit.setText(text + String.valueOf(value).substring(0, index));
         });
     }
 
-    private void setRating(){
+    private void setRating() {
         ratingEdit.setOnRatingBarChangeListener((ratingBar, v, b) -> rateValue = ratingBar.getRating());
     }
 
-    private void selectImage(){
+    private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //startActivity(intent);
         //Intent intent = new Intent();
         //intent.setType("image/*");
         //intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,SELECT_IMAGE_CODE);
+        startActivityForResult(intent, SELECT_IMAGE_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if (requestCode == 1) {
             Uri uri = data.getData();
             //Log.e("URI",uri.toString());
             selectedImageUri = uri;
         }
     }
 
-    private void setImagePickEdit(){
+    private void setImagePickEdit() {
         imagePickEdit.setOnClickListener(view -> {
             selectImage();
         });
     }
 
+    private String getValue(String str) {
+        String[] parts = str.split(":");
+        return parts[parts.length - 1].trim();
+    }
 }

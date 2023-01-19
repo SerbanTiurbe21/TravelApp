@@ -21,11 +21,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
     private List<Trip> tripList;
     private Context context;
-    private String email;
 
-    public TripAdapter(Context context, String email){
+    public TripAdapter(Context context){
         this.context = context;
-        this.email = email;
     }
 
     public void setTripList(List<Trip> trips){
@@ -53,6 +51,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
             holder.getDestinationCustomRow().setText(currentTrip.getDestination());
             holder.getTextView9().setText(String.valueOf(currentTrip.getPrice()));
             holder.getRatingCustomRow().setText("Rating\n" +"\t"+currentTrip.getRating());
+            holder.getEmailCustomRow().setText(currentTrip.getEmail());
 
             holder.itemView.setOnLongClickListener(view -> {
                 Intent intent = new Intent(context, EditTripActivity.class);
@@ -62,7 +61,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
                 intent.putExtra("destination",currentTrip.getDestination());
                 intent.putExtra("price",String.valueOf(currentTrip.getPrice()));
                 intent.putExtra("rating",String.valueOf(currentTrip.getRating()));
-                intent.putExtra("email",email);
+                intent.putExtra("email",String.valueOf(currentTrip.getEmail()));
                 context.startActivity(intent);
                 return true;
             });
