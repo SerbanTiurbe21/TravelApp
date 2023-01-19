@@ -80,22 +80,14 @@ public class AddDestinationActivity extends AppCompatActivity {
             String linkImage = String.valueOf(selectedImageUri);
             City city = new City(mail,tripName,destination,radioButtonValue,Float.parseFloat(getValue(price)),arrivingDate,leavingDate,Float.parseFloat(stars),linkImage,0,0,0,false);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    User user = userDao.email(mail);
-                    if(user == null){
-                        runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this, "Data was not inserted", Toast.LENGTH_SHORT).show());
-                    }
-                    else{
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cityDao.insert(city);
-                            }
-                        }).start();
-                        runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this,"Data was inserted",Toast.LENGTH_SHORT).show());
-                    }
+            new Thread(() -> {
+                User user = userDao.email(mail);
+                if(user == null){
+                    runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this, "Data was not inserted", Toast.LENGTH_SHORT).show());
+                }
+                else{
+                    new Thread(() -> cityDao.insert(city)).start();
+                    runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this,"Data was inserted",Toast.LENGTH_SHORT).show());
                 }
             }).start();
             appDatabase.close();
@@ -214,25 +206,6 @@ public class AddDestinationActivity extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view){
-        /*
-        boolean checked = ((RadioButton) view).isChecked();
-        switch (view.getId()){
-            case R.id.cityBreakDest:
-                if(checked){
-                    radioButtonValue = cityBreakDest.getText().toString();
-                }
-                break;
-            case R.id.seaSideDest:
-                if(checked){
-                    radioButtonValue = seaSideDest.getText().toString();
-                }
-                break;
-            case R.id.mountainDest:
-                if(checked){
-                    radioButtonValue = mountainDest.getText().toString();
-                }
-                break;
-        }*/
         int radioId = radioGroupDest.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
         testShit.setText(radioButton.getText());

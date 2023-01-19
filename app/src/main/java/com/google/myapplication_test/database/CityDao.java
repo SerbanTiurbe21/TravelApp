@@ -28,4 +28,10 @@ public interface CityDao {
 
     @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE u.userId = :userId")
     LiveData<List<City>> getAllCities(String userId);
+
+    @Query("UPDATE cities SET tripName = :tripName, destination = :destination,price = :price, rating = :rating, photoUri = :uri WHERE userId = :id")
+    void updateCity(String tripName, String destination,float price, float rating, String id, String uri);
+
+    @Query("SELECT * FROM cities JOIN users ON cities.userId = users.Id WHERE destination = :destination AND users.Id = :userId")
+    City getCityByDestinationAndUserEmail(String destination, String userId);
 }

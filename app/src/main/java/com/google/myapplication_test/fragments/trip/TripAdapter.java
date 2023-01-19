@@ -1,6 +1,7 @@
 package com.google.myapplication_test.fragments.trip;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.activities.EditTripActivity;
+import com.google.myapplication_test.activities.LoginActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,9 +21,11 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
     private List<Trip> tripList;
     private Context context;
+    private String email;
 
-    public TripAdapter(Context context){
+    public TripAdapter(Context context, String email){
         this.context = context;
+        this.email = email;
     }
 
     public void setTripList(List<Trip> trips){
@@ -48,6 +53,19 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
             holder.getDestinationCustomRow().setText(currentTrip.getDestination());
             holder.getTextView9().setText(String.valueOf(currentTrip.getPrice()));
             holder.getRatingCustomRow().setText("Rating\n" +"\t"+currentTrip.getRating());
+
+            holder.itemView.setOnLongClickListener(view -> {
+                Intent intent = new Intent(context, EditTripActivity.class);
+                //intent.putExtra("imageLink",holder.getImageView2().toString());
+                intent.putExtra("bookmarkItem", currentTrip.isBookmarked());
+                intent.putExtra("tripName",currentTrip.getTripName());
+                intent.putExtra("destination",currentTrip.getDestination());
+                intent.putExtra("price",String.valueOf(currentTrip.getPrice()));
+                intent.putExtra("rating",String.valueOf(currentTrip.getRating()));
+                intent.putExtra("email",email);
+                context.startActivity(intent);
+                return true;
+            });
         }
         else{
             holder.getTripNameCustomRow().setText(R.string.no_trips);

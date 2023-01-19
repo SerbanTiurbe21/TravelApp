@@ -36,7 +36,7 @@ import javax.crypto.Cipher;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     Button addTripButtonHome;
     String email;
@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
     private List<Trip> tripList;
     private CityViewModel cityViewModel;
     private TripAdapter tripAdapter;
+    List<Trip> myTrips = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,21 +96,17 @@ public class HomeFragment extends Fragment {
         });
 
         tripRecyclerView = view.findViewById(R.id.recyclerView);
-        tripAdapter = new TripAdapter(getContext());
+        tripAdapter = new TripAdapter(getContext(),email);
         tripRecyclerView.setAdapter(tripAdapter);
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         cityViewModel = new ViewModelProvider(this).get(CityViewModel.class);
-        cityViewModel.getAllCities().observe(getViewLifecycleOwner(), new Observer<List<City>>() {
-            @Override
-            public void onChanged(List<City> cities) {
-                List<Trip> myTrips = new ArrayList<>();
-                for(City c: cities){
-                    Trip trip = new Trip(c.getTripName(),c.getDestination(),c.getPhotoUri(),c.getPrice(),c.getRating(),c.isFavourite());
-                    myTrips.add(trip);
-                }
-                tripAdapter.setTripList(myTrips);
+        cityViewModel.getAllCities().observe(getViewLifecycleOwner(), cities -> {
+            for(City c: cities){
+                Trip trip = new Trip(c.getTripName(),c.getDestination(),c.getPhotoUri(),c.getPrice(),c.getRating(),c.isFavourite());
+                myTrips.add(trip);
             }
+            tripAdapter.setTripList(myTrips);
         });
 
         return view;
@@ -126,5 +123,4 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
     }
-
 }
