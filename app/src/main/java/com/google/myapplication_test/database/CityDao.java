@@ -34,4 +34,7 @@ public interface CityDao {
 
     @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE c.destination = :destination AND u.userId = :userId")
     City getCityByDestinationAndUserEmail(String destination, String userId);
+
+    @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE c.tripName = :tripName AND u.userId = :userId")
+    City getCityByTripNameAndUserEmail(String tripName, String userId);
 }

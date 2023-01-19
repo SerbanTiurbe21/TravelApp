@@ -17,6 +17,13 @@
         android:theme="@style/Theme.MyApplicationTest"
         tools:targetApi="31">
         <activity
+            android:name=".activities.DisplayDetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.EditTripActivity"
             android:exported="false">
             <meta-data

@@ -11,9 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.activities.DisplayDetailsActivity;
 import com.google.myapplication_test.activities.EditTripActivity;
-import com.google.myapplication_test.activities.LoginActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +66,15 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
                 context.startActivity(intent);
                 return true;
             });
+
+            holder.itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(context, DisplayDetailsActivity.class);
+                intent.putExtra("tripName",currentTrip.getTripName());
+                intent.putExtra("destination",currentTrip.getDestination());
+                intent.putExtra("email",currentTrip.getEmail());
+                context.startActivity(intent);
+            });
+
         }
         else{
             holder.getTripNameCustomRow().setText(R.string.no_trips);

@@ -68,6 +68,11 @@
     <string name="no_trips">No trips!</string>
     <string name="your_trips">Your trips!</string>
     <string name="edit_trip">EDIT TRIP</string>
+    <string name="degrees">Degrees:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="arriving_date_">Arriving date</string>
+    <string name="leaving_date">Leaving date</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>
