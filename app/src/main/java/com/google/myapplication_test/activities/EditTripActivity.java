@@ -2,6 +2,7 @@ package com.google.myapplication_test.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +25,11 @@ import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityDao;
 import com.google.myapplication_test.database.User;
 import com.google.myapplication_test.database.UserDao;
+import com.google.myapplication_test.fragments.trip.Trip;
+import com.google.myapplication_test.fragments.trip.TripAdapter;
+import com.google.myapplication_test.fragments.trip.TripViewModel;
+
+import java.util.List;
 
 public class EditTripActivity extends AppCompatActivity {
 
@@ -37,6 +43,7 @@ public class EditTripActivity extends AppCompatActivity {
     private Uri selectedImageUri;
     static final int SELECT_IMAGE_CODE = 1;
     private String valuePrice;
+    private TripAdapter tripAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,42 +59,32 @@ public class EditTripActivity extends AppCompatActivity {
         Float price = Float.parseFloat(intent.getStringExtra("price"));
         Float rating = Float.parseFloat(intent.getStringExtra("rating"));
         String email = intent.getStringExtra("email");
+        int position = intent.getIntExtra("position", -1);
 
-        updateViews(tripName, destination, price, rating, bookMarkItem);
-        updateImage();
-        setSlider();
-        setRating();
-        setImagePickEdit();
-        setSaveButtonEdit(email, destination);
+        allTheSetters(bookMarkItem, tripName, destination, price, rating, email, position);
     }
 
-    private void setSaveButtonEdit(String mail, String destination) {
+    private void setSaveButtonEdit(String mail, String destination, String tripName, int position) {
         saveButtonEdit.setOnClickListener(view -> {
             String updatedTripName = tripNameEdit.getText().toString();
             String updatedDestination = destinationEdit.getText().toString();
             String updatedPrice = priceEurEdit.getText().toString();
             String updatedRating = String.valueOf(rateValue);
-            AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
-            UserDao userDao = appDatabase.userDao();
-            CityDao cityDao = appDatabase.cityDao();
-            new Thread(() -> {
-                // sa bag aici mail-ul
-                User user = userDao.email(mail);
-                if (user == null) {
-                    runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was not updated1", Toast.LENGTH_SHORT).show());
-                } else {
-                    new Thread(() -> {
-                        City city = cityDao.getCityByDestinationAndUserEmail(destination, mail);
-                        if (city == null) {
-                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was not updated2", Toast.LENGTH_SHORT).show());
-                        } else {
-                            cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), mail, String.valueOf(selectedImageUri));
-                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Data was updated3", Toast.LENGTH_SHORT).show());
-                        }
-                    }).start();
-                }
-            }).start();
+
+            if(position != -1){
+
+            }
+
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            Uri uri = data.getData();
+            selectedImageUri = uri;
+        }
     }
 
     private void setupViews() {
@@ -127,21 +124,7 @@ public class EditTripActivity extends AppCompatActivity {
 
     private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        //startActivity(intent);
-        //Intent intent = new Intent();
-        //intent.setType("image/*");
-        //intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, SELECT_IMAGE_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            Uri uri = data.getData();
-            //Log.e("URI",uri.toString());
-            selectedImageUri = uri;
-        }
     }
 
     private void setImagePickEdit() {
@@ -153,5 +136,14 @@ public class EditTripActivity extends AppCompatActivity {
     private String getValue(String str) {
         String[] parts = str.split(":");
         return parts[parts.length - 1].trim();
+    }
+
+    private void allTheSetters(Boolean bookMarkItem, String tripName, String destination, Float price, Float rating, String email, int position) {
+        updateViews(tripName, destination, price, rating, bookMarkItem);
+        updateImage();
+        setSlider();
+        setRating();
+        setImagePickEdit();
+        setSaveButtonEdit(email, destination, tripName, position);
     }
 }

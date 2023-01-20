@@ -143,13 +143,6 @@ public class AddDestinationActivity extends AppCompatActivity {
                         String format = "dd/MM/yy";
                         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.UK);
                         editText.setText(sdf.format(calendar1.getTime()));
-                        /*
-                        if(month + 1 < 10){
-                            editText.setText("0"+day + "/" + "0"+(month + 1) + "/" + year);
-                        }
-                        else{
-                            editText.setText("0"+day + "/" +(month + 1) + "/" + String.);
-                        }*/
                     }
                 }, year, month, day);
 

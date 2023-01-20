@@ -1,5 +1,6 @@
 package com.google.myapplication_test.fragments.trip;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.myapplication_test.R;
@@ -21,6 +27,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
     private List<Trip> tripList;
     private Context context;
+    private final int REQUEST_CODE_EDIT_ITEM = 2;
+    private TripViewModel tripViewModel;
 
     public TripAdapter(Context context){
         this.context = context;
@@ -36,7 +44,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
     @NonNull
     @Override
     public TripViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_row,parent,false);
         View itemView = LayoutInflater.from(context).inflate(R.layout.custom_row,parent,false);
         return new TripViewHolder(itemView);
     }
@@ -55,30 +62,37 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
             holder.getRatingCustomRow().setText("Rating\n" +"\t"+currentTrip.getRating());
             holder.getEmailCustomRow().setText(currentTrip.getEmail());
 
-            holder.itemView.setOnLongClickListener(view -> {
-                Intent intent = new Intent(context, EditTripActivity.class);
-                intent.putExtra("bookmarkItem", currentTrip.isBookmarked());
-                intent.putExtra("tripName",currentTrip.getTripName());
-                intent.putExtra("destination",currentTrip.getDestination());
-                intent.putExtra("price",String.valueOf(currentTrip.getPrice()));
-                intent.putExtra("rating",String.valueOf(currentTrip.getRating()));
-                intent.putExtra("email",String.valueOf(currentTrip.getEmail()));
-                context.startActivity(intent);
-                return true;
-            });
-
-            holder.itemView.setOnClickListener(view -> {
-                Intent intent = new Intent(context, DisplayDetailsActivity.class);
-                intent.putExtra("tripName",currentTrip.getTripName());
-                intent.putExtra("destination",currentTrip.getDestination());
-                intent.putExtra("email",currentTrip.getEmail());
-                context.startActivity(intent);
-            });
-
+            holderLongClick(holder,currentTrip,position);
+            holderClick(holder,currentTrip);
         }
         else{
             holder.getTripNameCustomRow().setText(R.string.no_trips);
         }
+    }
+
+    private void holderLongClick(@NonNull TripViewHolder holder, Trip currentTrip, int position){
+        holder.itemView.setOnLongClickListener(view -> {
+            Intent intent = new Intent(context, EditTripActivity.class);
+            intent.putExtra("bookmarkItem", currentTrip.isBookmarked());
+            intent.putExtra("tripName",currentTrip.getTripName());
+            intent.putExtra("destination",currentTrip.getDestination());
+            intent.putExtra("price",String.valueOf(currentTrip.getPrice()));
+            intent.putExtra("rating",String.valueOf(currentTrip.getRating()));
+            intent.putExtra("email",String.valueOf(currentTrip.getEmail()));
+            intent.putExtra("position", position);
+            context.startActivity(intent);
+            return true;
+        });
+    }
+
+    private void holderClick(@NonNull TripViewHolder holder, Trip currentTrip){
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, DisplayDetailsActivity.class);
+            intent.putExtra("tripName",currentTrip.getTripName());
+            intent.putExtra("destination",currentTrip.getDestination());
+            intent.putExtra("email",currentTrip.getEmail());
+            context.startActivity(intent);
+        });
     }
 
     @Override

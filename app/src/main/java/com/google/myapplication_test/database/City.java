@@ -1,6 +1,8 @@
 package com.google.myapplication_test.database;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -10,7 +12,7 @@ import androidx.room.PrimaryKey;
 import java.util.Date;
 
 @Entity(tableName = "cities")
-public class City {
+public class City{
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -140,4 +142,5 @@ public class City {
     public boolean isFavourite() {
         return isFavourite;
     }
+
 }

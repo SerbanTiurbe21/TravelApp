@@ -21,23 +21,20 @@ import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityViewModel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
 
-    TextView textInvisible;
     Button addTripButtonHome;
     static String email;
     private RecyclerView tripRecyclerView;
     private List<Trip> tripList;
     private CityViewModel cityViewModel;
     private TripAdapter tripAdapter;
-    List<Trip> myTrips = new ArrayList<>();
+    List<Trip> myTrips;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,7 +46,7 @@ public class HomeFragment extends Fragment{
     private String mParam2;
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
     // TODO: Rename and change types and number of parameters
@@ -69,25 +66,21 @@ public class HomeFragment extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        Bundle bundle1 = new Bundle();
-
         Bundle bundle = getArguments();
         if (bundle != null) {
-           email = bundle.getString("email");
+            email = bundle.getString("email");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         Button button = (Button) view.findViewById(R.id.addTripButtonHome);
 
         button.setOnClickListener(myView -> {
-            Intent intent = new Intent(getActivity(),AddDestinationActivity.class);
-            intent.putExtra("email",email);
+            Intent intent = new Intent(getActivity(), AddDestinationActivity.class);
+            intent.putExtra("email", email);
             startActivity(intent);
         });
 
@@ -95,28 +88,54 @@ public class HomeFragment extends Fragment{
         tripAdapter = new TripAdapter(getContext());
         tripRecyclerView.setAdapter(tripAdapter);
         tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         cityViewModel = new ViewModelProvider(this).get(CityViewModel.class);
+
+        List<Trip> helperList = new ArrayList<>();
+        myTrips = new ArrayList<>();
+        myTrips.add(new Trip("balamuc", "milano", "", 300F, 4.5F, false, email));
+        tripAdapter.setTripList(myTrips);
+
         cityViewModel.getAllCities().observe(getViewLifecycleOwner(), cities -> {
-            for(City c: cities){
-                Trip trip = new Trip(c.getTripName(),c.getDestination(),c.getPhotoUri(),c.getPrice(),c.getRating(),c.isFavourite(),c.getUserId());
-                myTrips.add(trip);
+            boolean flag;
+            for (City c : cities) {
+                Trip trip = new Trip(c.getTripName(), c.getDestination(), c.getPhotoUri(), c.getPrice(), c.getRating(), c.isFavourite(), c.getUserId());
+                //Log.d("tripName",trip.getTripName());
+                helperList.add(trip);
             }
-            tripAdapter.setTripList(myTrips);
+            List<Trip> aux = removeDuplicates(helperList);
+            //tripAdapter.setTripList(aux);
         });
+
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void setTripsLayoutManager() {
+        tripRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void setAddTripButtonHome(){
-        addTripButtonHome.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(), AddDestinationActivity.class);
-            startActivity(intent);
-        });
+    private void setTripsAdapter() {
+        tripAdapter = new TripAdapter(getContext());
+        tripRecyclerView.setAdapter(tripAdapter);
+    }
+
+    private void setTrips() {
+        //myTrips = new ArrayList<>();
+        myTrips.add(new Trip("balamuc", "milano", "", 300F, 4.5F, false, email));
+        tripAdapter.setTripList(myTrips);
+    }
+
+    private void setupRecyclerView() {
+        setTrips();
+        setTripsLayoutManager();
+        setTripsAdapter();
+    }
+
+    private static List<Trip> removeDuplicates(List<Trip> trips) {
+        Set<Trip> uniqueTrips = new HashSet<>();
+        uniqueTrips.addAll(trips);
+        trips.clear();
+        trips.addAll(uniqueTrips);
+        return trips;
     }
 
 }

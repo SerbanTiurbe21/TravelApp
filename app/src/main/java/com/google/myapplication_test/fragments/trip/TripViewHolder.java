@@ -13,7 +13,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
     private final ImageView imageView2, bookmarkIconCustomRow;
     private final TextView tripNameCustomRow, destinationCustomRow, textView9, ratingCustomRow, emailCustomRow;
-    private int mPosition;
 
     public TripViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -53,4 +52,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
     public TextView getEmailCustomRow() {
         return emailCustomRow;
     }
+
+
 }
