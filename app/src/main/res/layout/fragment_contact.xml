@@ -57,17 +57,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.393">
+        app:layout_constraintVertical_bias="0.383">
 
         <AutoCompleteTextView
             android:id="@+id/autoComplete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="63dp"
             android:layout_margin="10dp"
             android:background="#30ffffff"
             android:inputType="none"
             android:padding="20dp" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
@@ -84,10 +83,10 @@
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.592" />
+        app:layout_constraintVertical_bias="0.598" />
 
     <EditText
         android:id="@+id/emailContact"
@@ -102,8 +101,8 @@
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.757"
-        tools:layout_editor_absoluteX="9dp" />
+        app:layout_constraintVertical_bias="0.791"
+        tools:layout_editor_absoluteX="19dp" />
 
     <Button
         android:id="@+id/buttonSendContact"
@@ -112,9 +111,9 @@
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.975"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailContact"
-        app:layout_constraintVertical_bias="0.686" />
+        app:layout_constraintVertical_bias="0.917" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
