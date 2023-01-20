@@ -73,6 +73,7 @@
     <string name="longitude">Longitude:</string>
     <string name="arriving_date_">Arriving date</string>
     <string name="leaving_date">Leaving date</string>
+    <string name="your_trips_">Your trips</string>
     <string-array name="stringsList">
         <item>"General question"</item>
         <item>"Registration difficulties"</item>

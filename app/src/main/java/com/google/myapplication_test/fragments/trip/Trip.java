@@ -1,8 +1,12 @@
 package com.google.myapplication_test.fragments.trip;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Trip {
+public class Trip  {
     private String tripName;
     private String destination;
     private String imageUrl;
@@ -20,6 +24,18 @@ public class Trip {
         this.isBookmarked = isBookmarked;
         this.email = email;
     }
+
+    protected Trip(Parcel in) {
+        tripName = in.readString();
+        destination = in.readString();
+        imageUrl = in.readString();
+        price = in.readFloat();
+        rating = in.readFloat();
+        isBookmarked = in.readByte() != 0;
+        email = in.readString();
+    }
+
+
 
     public String getTripName() {
         return tripName;
@@ -101,4 +117,5 @@ public class Trip {
     public int hashCode() {
         return Objects.hash(tripName);
     }
+
 }

@@ -27,6 +27,9 @@ import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityDao;
 import com.google.myapplication_test.database.User;
 import com.google.myapplication_test.database.UserDao;
+import com.google.myapplication_test.fragments.trip.HomeFragment;
+import com.google.myapplication_test.fragments.trip.Trip;
+import com.google.myapplication_test.fragments.trip.TripAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +58,7 @@ public class AddDestinationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
+
         Log.d("caca",email);
 
         setupViews();
@@ -68,7 +72,6 @@ public class AddDestinationActivity extends AppCompatActivity {
 
     private void setSaveButtonDest(String mail){
         saveButtonDest.setOnClickListener(view -> {
-            // aici le salvez in baza de date
             AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
             UserDao userDao = appDatabase.userDao();
             CityDao cityDao = appDatabase.cityDao();
@@ -89,7 +92,15 @@ public class AddDestinationActivity extends AppCompatActivity {
                 }
                 else{
                     new Thread(() -> cityDao.insert(city)).start();
+                    Intent intent = new Intent(AddDestinationActivity.this,MainActivity.class);
+                    intent.putExtra("tripName",tripName);
+                    intent.putExtra("destination",destination);
+                    intent.putExtra("price",price);
+                    intent.putExtra("stars",stars);
+                    intent.putExtra("linkImage",linkImage);
                     runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this,"Data was inserted",Toast.LENGTH_SHORT).show());
+                    startActivityForResult(intent,2);
+                    //finish();
                 }
             }).start();
             appDatabase.close();

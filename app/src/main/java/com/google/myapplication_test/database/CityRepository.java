@@ -9,6 +9,7 @@ import java.util.List;
 public class CityRepository {
     private CityDao mCityDao;
     private LiveData<List<City>> mAllCities;
+    private List<City> theCities;
 
     CityRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);

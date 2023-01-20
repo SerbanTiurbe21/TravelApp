@@ -57,12 +57,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383">
+        app:layout_constraintVertical_bias="0.464">
 
         <AutoCompleteTextView
             android:id="@+id/autoComplete"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="#30ffffff"
             android:inputType="none"
@@ -72,7 +72,7 @@
     <EditText
         android:id="@+id/problemTextContact"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="#30ffffff"
         android:hint="@string/text"
@@ -83,10 +83,10 @@
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.598" />
+        app:layout_constraintVertical_bias="0.856" />
 
     <EditText
         android:id="@+id/emailContact"
@@ -101,8 +101,8 @@
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.791"
-        tools:layout_editor_absoluteX="19dp" />
+        app:layout_constraintVertical_bias="0.949"
+        tools:layout_editor_absoluteX="11dp" />
 
     <Button
         android:id="@+id/buttonSendContact"

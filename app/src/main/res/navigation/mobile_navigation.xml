@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.google.myapplication_test.fragments.trip.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Your trips"
         tools:layout="@layout/fragment_home" />
 
     <fragment

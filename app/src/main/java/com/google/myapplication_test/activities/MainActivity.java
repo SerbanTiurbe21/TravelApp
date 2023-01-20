@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,11 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     TextView userNameHeader, emailHeader;
     View hView;
+    //private static String tripName, destination, price, stars, linkImage, username, email;
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment_content_main,fragment);
+        fragmentTransaction.replace(R.id.nav_host_fragment_content_main, fragment);
         fragmentTransaction.commit();
     }
 
@@ -48,8 +50,14 @@ public class MainActivity extends AppCompatActivity {
         String username = intent.getStringExtra("username");
         String email = intent.getStringExtra("email");
 
+
         Bundle bundle = new Bundle();
-        bundle.putString("email",email);
+        bundle.putString("email", email);
+        //bundle.putString("tripName",tripName);
+        //bundle.putString("destination",destination);
+        //bundle.putString("price",price);
+        //bundle.putString("stars",stars);
+        //bundle.putString("linkImage",linkImage);
 
         HomeFragment homeFragment = new HomeFragment();
         homeFragment.setArguments(bundle);
@@ -97,4 +105,25 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    /*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                Intent intent = getIntent();
+                username = intent.getStringExtra("username");
+                email = intent.getStringExtra("email");
+                break;
+            case 2:
+                Intent intent2 = getIntent();
+                tripName = intent2.getStringExtra("tripName");
+                destination = intent2.getStringExtra("destination");
+                price = intent2.getStringExtra("price");
+                stars = intent2.getStringExtra("stars");
+                linkImage = intent2.getStringExtra("linkImage");
+                break;
+        }
+    }*/
 }
