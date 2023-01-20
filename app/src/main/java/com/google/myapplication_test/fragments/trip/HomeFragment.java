@@ -81,11 +81,6 @@ public class HomeFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             email = bundle.getString("email");
-            //tripName = bundle.getString("tripName");
-            //destination = bundle.getString("destination");
-            //price = bundle.getString("price");
-            //stars = bundle.getString("stars");
-            //linkImage = bundle.getString("linkImage");
         }
     }
 
@@ -95,9 +90,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Button button = (Button) view.findViewById(R.id.addTripButtonHome);
 
-        AppDatabase appDatabase = AppDatabase.getDatabase(getContext());
-        UserDao userDao = appDatabase.userDao();
-        CityDao cityDao = appDatabase.cityDao();
         tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
         tripRecyclerView = view.findViewById(R.id.recyclerView);
@@ -108,13 +100,12 @@ public class HomeFragment extends Fragment {
         myTrips = new ArrayList<>();
         List<Trip> helperList = new ArrayList<>();
 
-        //myTrips.add(new Trip("balamuc", "milano", "", 300F, 4.5F, false, email));
+
         tripAdapter.setTripList(myTrips);
 
         cityViewModel.getAllCities().observe(getViewLifecycleOwner(), cities -> {
             for (City c : cities) {
                 Trip trip = new Trip(c.getTripName(), c.getDestination(), c.getPhotoUri(), c.getPrice(), c.getRating(), c.isFavourite(), c.getUserId());
-                Log.d("tripName",trip.getTripName());
                 helperList.add(trip);
             }
             List<Trip> aux = removeDuplicates(helperList);
@@ -127,11 +118,10 @@ public class HomeFragment extends Fragment {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //myTrips.clear();
-                cityViewModel.getAllCities().observe(getViewLifecycleOwner(),cities -> {
+                cityViewModel.getAllCities().observe(getViewLifecycleOwner(), cities -> {
                     for (City c : cities) {
+                        Log.d("ORAS",c.getTripName());
                         Trip trip = new Trip(c.getTripName(), c.getDestination(), c.getPhotoUri(), c.getPrice(), c.getRating(), c.isFavourite(), c.getUserId());
-                        Log.d("tripName",trip.getTripName());
                         helperList1.add(trip);
                     }
                     List<Trip> aux2 = removeDuplicates(helperList1);
@@ -145,7 +135,7 @@ public class HomeFragment extends Fragment {
         button.setOnClickListener(myView -> {
             Intent intent = new Intent(getActivity(), AddDestinationActivity.class);
             intent.putExtra("email", email);
-            startActivityForResult(intent,REQUEST_CODE);
+            startActivityForResult(intent, REQUEST_CODE);
         });
         return view;
     }

@@ -24,7 +24,7 @@ public interface CityDao {
     LiveData<List<City>> getAll();
 
     @Query("SELECT * FROM cities WHERE userId = :cityId")
-    City findById(int cityId);
+    City findById(String cityId);
 
     @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE u.userId = :userId")
     LiveData<List<City>> getAllCities(String userId);
@@ -32,8 +32,8 @@ public interface CityDao {
     @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE u.userId = :userId")
     List<City> getTheCities(String userId);
 
-    @Query("UPDATE cities SET tripName = :tripName, destination = :destination,price = :price, rating = :rating, photoUri = :uri WHERE userId = :id")
-    void updateCity(String tripName, String destination,float price, float rating, String id, String uri);
+    @Query("UPDATE cities SET tripName = :tripName, destination = :destination,price = :price, rating = :rating, photoUri = :uri, isFavourite = :favourite WHERE id = :id")
+    void updateCity(String tripName, String destination,float price, float rating, String uri, boolean favourite, int id);
 
     @Query("SELECT * FROM cities c JOIN users u ON c.userId = u.userId WHERE c.destination = :destination AND u.userId = :userId")
     City getCityByDestinationAndUserEmail(String destination, String userId);

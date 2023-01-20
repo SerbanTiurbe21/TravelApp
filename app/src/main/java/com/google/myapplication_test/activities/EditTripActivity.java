@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.material.slider.Slider;
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.api.Main;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityDao;
@@ -33,8 +34,8 @@ import java.util.List;
 
 public class EditTripActivity extends AppCompatActivity {
 
-    private EditText tripNameEdit, destinationEdit;
-    private TextView priceEurEdit, imagePickEdit, testShit2;
+    private EditText destinationEdit;
+    private TextView priceEurEdit, imagePickEdit, tripNameEdit;
     private Slider sliderEdit;
     private RatingBar ratingEdit;
     private ImageView bookmarkEdit;
@@ -42,8 +43,7 @@ public class EditTripActivity extends AppCompatActivity {
     private Float rateValue;
     private Uri selectedImageUri;
     static final int SELECT_IMAGE_CODE = 1;
-    private String valuePrice;
-    private TripAdapter tripAdapter;
+    private boolean isMarked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +59,33 @@ public class EditTripActivity extends AppCompatActivity {
         Float price = Float.parseFloat(intent.getStringExtra("price"));
         Float rating = Float.parseFloat(intent.getStringExtra("rating"));
         String email = intent.getStringExtra("email");
-        int position = intent.getIntExtra("position", -1);
-
-        allTheSetters(bookMarkItem, tripName, destination, price, rating, email, position);
+        allTheSetters(bookMarkItem, tripName, destination, price, rating, email);
     }
 
-    private void setSaveButtonEdit(String mail, String destination, String tripName, int position) {
+    private void setSaveButtonEdit(String mail) {
         saveButtonEdit.setOnClickListener(view -> {
             String updatedTripName = tripNameEdit.getText().toString();
             String updatedDestination = destinationEdit.getText().toString();
             String updatedPrice = priceEurEdit.getText().toString();
             String updatedRating = String.valueOf(rateValue);
+            AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+            CityDao cityDao = appDatabase.cityDao();
 
-            if(position != -1){
-                
-            }
-
+            new Thread(() -> {
+                City city = cityDao.getCityByTripNameAndUserEmail(tripNameEdit.getText().toString(), mail);
+                if (city == null) {
+                    runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City not found!", Toast.LENGTH_SHORT).show());
+                } else {
+                    if (!getValue(updatedPrice).equals("") && rateValue != null) {
+                        cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), String.valueOf(selectedImageUri), isMarked, city.getId());
+                        runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City updated", Toast.LENGTH_SHORT).show());
+                        Intent intent = new Intent(EditTripActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Please update the price and rating!", Toast.LENGTH_SHORT).show());
+                    }
+                }
+            }).start();
         });
     }
 
@@ -107,7 +118,10 @@ public class EditTripActivity extends AppCompatActivity {
     }
 
     private void updateImage() {
-        bookmarkEdit.setOnClickListener(view -> bookmarkEdit.setImageResource(R.drawable.ic_baseline_bookmark__gold_24));
+        bookmarkEdit.setOnClickListener(view -> {
+            bookmarkEdit.setImageResource(R.drawable.ic_baseline_bookmark__gold_24);
+            isMarked = true;
+        });
     }
 
     private void setSlider() {
@@ -138,12 +152,12 @@ public class EditTripActivity extends AppCompatActivity {
         return parts[parts.length - 1].trim();
     }
 
-    private void allTheSetters(Boolean bookMarkItem, String tripName, String destination, Float price, Float rating, String email, int position) {
+    private void allTheSetters(Boolean bookMarkItem, String tripName, String destination, Float price, Float rating, String email) {
         updateViews(tripName, destination, price, rating, bookMarkItem);
         updateImage();
         setSlider();
         setRating();
         setImagePickEdit();
-        setSaveButtonEdit(email, destination, tripName, position);
+        setSaveButtonEdit(email);
     }
 }
