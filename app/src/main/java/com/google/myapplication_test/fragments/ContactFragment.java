@@ -86,20 +86,11 @@ public class ContactFragment extends Fragment {
 
         adapterItem = new ArrayAdapter<String>(requireContext(),R.layout.dropdown_item,myList);
         autoCompleteTextView.setAdapter(adapterItem);
-        /*
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getContext(),"item" + item,Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
 
         buttonSendContact.setOnClickListener(view1 -> {
             if(!problemTextContact.getText().toString().isEmpty() && !autoCompleteTextView.getText().toString().isEmpty() && !emailContact.getText().toString().isEmpty()){
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"tavelbuddy@gmail.com"});
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"travelbuddy@gmail.com"});
                 intent.putExtra(Intent.EXTRA_SUBJECT,autoCompleteTextView.getText().toString());
                 intent.putExtra(Intent.EXTRA_TEXT,problemTextContact.getText().toString());
                 intent.setType("message/rfc822");

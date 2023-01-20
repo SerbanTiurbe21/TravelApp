@@ -7,12 +7,36 @@
     tools:context=".activities.SplashActivity"
     android:background="@drawable/background">
 
+
+    <ImageView
+        android:layout_width="157dp"
+        android:layout_height="115dp"
+        android:src="@drawable/destination"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <ImageView
+        android:layout_width="154dp"
+        android:layout_height="122dp"
+        android:rotation="45"
+        android:src="@drawable/ic_baseline_flight_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.973" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="220dp"
         android:layout_height="85dp"
         android:gravity="center"
-        android:text="Travel\n buddy!"
+        android:text="Travel\n          buddy!"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -22,6 +46,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.442" />
+        app:layout_constraintVertical_bias="0.439" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
