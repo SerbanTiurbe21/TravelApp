@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment {
     private List<Trip> tripList;
     private CityViewModel cityViewModel;
     private TripAdapter tripAdapter;
+    private TripViewModel tripViewModel;
     List<Trip> myTrips;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,6 +85,7 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
+        tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
         tripRecyclerView = view.findViewById(R.id.recyclerView);
         tripAdapter = new TripAdapter(getContext());
         tripRecyclerView.setAdapter(tripAdapter);
@@ -93,7 +95,8 @@ public class HomeFragment extends Fragment {
         List<Trip> helperList = new ArrayList<>();
         myTrips = new ArrayList<>();
         myTrips.add(new Trip("balamuc", "milano", "", 300F, 4.5F, false, email));
-        tripAdapter.setTripList(myTrips);
+        //tripAdapter.setTripList(myTrips);
+        //tripViewModel.setDataSource(myTrips);
 
         cityViewModel.getAllCities().observe(getViewLifecycleOwner(), cities -> {
             boolean flag;
@@ -103,7 +106,7 @@ public class HomeFragment extends Fragment {
                 helperList.add(trip);
             }
             List<Trip> aux = removeDuplicates(helperList);
-            //tripAdapter.setTripList(aux);
+            tripAdapter.setTripList(aux);
         });
 
         return view;

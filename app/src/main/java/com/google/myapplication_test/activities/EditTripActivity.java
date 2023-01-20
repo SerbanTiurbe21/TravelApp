@@ -72,7 +72,7 @@ public class EditTripActivity extends AppCompatActivity {
             String updatedRating = String.valueOf(rateValue);
 
             if(position != -1){
-
+                
             }
 
         });
