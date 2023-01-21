@@ -59,10 +59,12 @@ public class EditTripActivity extends AppCompatActivity {
         Float price = Float.parseFloat(intent.getStringExtra("price"));
         Float rating = Float.parseFloat(intent.getStringExtra("rating"));
         String email = intent.getStringExtra("email");
-        allTheSetters(bookMarkItem, tripName, destination, price, rating, email);
+        String linkImage = intent.getStringExtra("imageLink");
+        Log.d("linkul",linkImage);
+        allTheSetters(bookMarkItem, tripName, destination, price, rating, email,linkImage);
     }
 
-    private void setSaveButtonEdit(String mail) {
+    private void setSaveButtonEdit(String mail, String linkImage) {
         saveButtonEdit.setOnClickListener(view -> {
             String updatedTripName = tripNameEdit.getText().toString();
             String updatedDestination = destinationEdit.getText().toString();
@@ -77,10 +79,18 @@ public class EditTripActivity extends AppCompatActivity {
                     runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City not found!", Toast.LENGTH_SHORT).show());
                 } else {
                     if (!getValue(updatedPrice).equals("") && rateValue != null) {
-                        cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), String.valueOf(selectedImageUri), isMarked, city.getId());
-                        runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City updated", Toast.LENGTH_SHORT).show());
-                        Intent intent = new Intent(EditTripActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        if(String.valueOf(selectedImageUri).equals("")){
+                            cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), linkImage, isMarked, city.getId());
+                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City updated", Toast.LENGTH_SHORT).show());
+                            Intent intent = new Intent(EditTripActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), String.valueOf(selectedImageUri), isMarked, city.getId());
+                            runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City updated", Toast.LENGTH_SHORT).show());
+                            Intent intent = new Intent(EditTripActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
                     } else {
                         runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "Please update the price and rating!", Toast.LENGTH_SHORT).show());
                     }
@@ -152,12 +162,12 @@ public class EditTripActivity extends AppCompatActivity {
         return parts[parts.length - 1].trim();
     }
 
-    private void allTheSetters(Boolean bookMarkItem, String tripName, String destination, Float price, Float rating, String email) {
+    private void allTheSetters(Boolean bookMarkItem, String tripName, String destination, Float price, Float rating, String email, String linkImage) {
         updateViews(tripName, destination, price, rating, bookMarkItem);
         updateImage();
         setSlider();
         setRating();
         setImagePickEdit();
-        setSaveButtonEdit(email);
+        setSaveButtonEdit(email,linkImage);
     }
 }

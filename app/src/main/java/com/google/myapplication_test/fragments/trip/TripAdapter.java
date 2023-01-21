@@ -80,6 +80,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
             intent.putExtra("rating",String.valueOf(currentTrip.getRating()));
             intent.putExtra("email",String.valueOf(currentTrip.getEmail()));
             intent.putExtra("position", position);
+            intent.putExtra("imageLink",currentTrip.getImageUrl());
             context.startActivity(intent);
             return true;
         });
