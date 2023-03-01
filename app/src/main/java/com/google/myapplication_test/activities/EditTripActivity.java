@@ -89,6 +89,7 @@ public class EditTripActivity extends AppCompatActivity {
                             cityDao.updateCity(updatedTripName, updatedDestination, Float.parseFloat(getValue(updatedPrice)), Float.parseFloat(updatedRating), String.valueOf(selectedImageUri), isMarked, city.getId());
                             runOnUiThread(() -> Toast.makeText(EditTripActivity.this, "City updated", Toast.LENGTH_SHORT).show());
                             Intent intent = new Intent(EditTripActivity.this, MainActivity.class);
+                            intent.putExtra("email",mail);
                             startActivity(intent);
                         }
                     } else {

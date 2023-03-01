@@ -98,6 +98,7 @@ public class AddDestinationActivity extends AppCompatActivity {
                     intent.putExtra("price",price);
                     intent.putExtra("stars",stars);
                     intent.putExtra("linkImage",linkImage);
+                    intent.putExtra("email",mail);
                     runOnUiThread(() -> Toast.makeText(AddDestinationActivity.this,"Data was inserted",Toast.LENGTH_SHORT).show());
                     startActivityForResult(intent,2);
                     //finish();

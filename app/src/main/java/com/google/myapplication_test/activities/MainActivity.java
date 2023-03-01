@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     TextView userNameHeader, emailHeader;
     View hView;
-    //private static String tripName, destination, price, stars, linkImage, username, email;
+    private static String tripName, destination, price, stars, linkImage, username, email;
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         String email = intent.getStringExtra("email");
+        //Log.d("Username",username);
 
 
         Bundle bundle = new Bundle();
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 
     /*
     @Override
