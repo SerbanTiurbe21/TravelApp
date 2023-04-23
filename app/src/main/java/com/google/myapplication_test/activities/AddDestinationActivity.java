@@ -22,11 +22,15 @@ import android.widget.Toast;
 
 import com.google.android.material.slider.Slider;
 import com.google.myapplication_test.R;
+import com.google.myapplication_test.api.trip.TripService;
+import com.google.myapplication_test.api.user.RetrofitInstance;
+import com.google.myapplication_test.api.user.UserService;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityDao;
 import com.google.myapplication_test.database.User;
 import com.google.myapplication_test.database.UserDao;
+import com.google.myapplication_test.entities.TripDB;
 import com.google.myapplication_test.fragments.trip.HomeFragment;
 import com.google.myapplication_test.fragments.trip.Trip;
 import com.google.myapplication_test.fragments.trip.TripAdapter;
@@ -36,6 +40,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddDestinationActivity extends AppCompatActivity {
 
@@ -59,17 +67,104 @@ public class AddDestinationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
 
-        Log.d("caca",email);
+        Log.d("caca", email);
 
         setupViews();
         setImagePickDestination();
         setupCalendar(arrivingDateDestination);
         setSlider();
         setRatingDest();
-        setSaveButtonDest(email);
+        test_button(email);
     }
 
+    public void saveTrip(TripDB trip, String email) {
+        TripService tripService = RetrofitInstance.getRetrofitInstance().create(TripService.class);
+        Call<TripDB> call = tripService.saveTrip(trip);
 
+        call.enqueue(new Callback<TripDB>() {
+            @Override
+            public void onResponse(Call<TripDB> call, Response<TripDB> response) {
+                if (response.isSuccessful()) {
+                    TripDB savedTrip = response.body();
+                    // Handle the saved trip object
+                    Toast.makeText(getApplicationContext(), "Trip saved successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AddDestinationActivity.this,MainActivity.class);
+                    //intent.putExtra("tripName",savedTrip.getTripName());
+                    //intent.putExtra("destination",savedTrip.getDestination());
+                    //intent.putExtra("price",savedTrip.getPrice());
+                    //intent.putExtra("stars",savedTrip.getRating());
+                    //intent.putExtra("linkImage",savedTrip.getPhotoUri());
+                    intent.putExtra("email", email);
+                    startActivityForResult(intent,2);
+                } else {
+                    // Handle the error
+                    Toast.makeText(getApplicationContext(), "Error saving trip: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TripDB> call, Throwable t) {
+                // Handle network error
+                Toast.makeText(getApplicationContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void test_button(String email){
+        saveButtonDest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tripName = tripNameDest.getText().toString();
+                String destination = destinationDest.getText().toString();
+                String radioButtonValue = testShit.getText().toString();
+                String price = getValue(priceEurDest.getText().toString());
+                String arrivingDate = arrivingDateDestination.getText().toString();
+                String leavingDate = leavingDateDestination.getText().toString();
+                String stars = String.valueOf(rateValue);
+                String linkImage = String.valueOf(selectedImageUri);
+                UserService userService = RetrofitInstance.getRetrofitInstance().create(UserService.class);
+                Call<User> call = userService.getUserByEmail(email);
+
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            User user = response.body();
+                            Log.d("user email", user.getEmail());
+                            // Create a new TripDB object and set the user
+                            if(tripName.isEmpty() || destination.isEmpty() || radioButtonValue.isEmpty() || arrivingDate.isEmpty() || leavingDate.isEmpty() || price.isEmpty() ||stars.isEmpty() || linkImage.isEmpty()){
+                                Log.d("tripName", tripName);
+                                Log.d("dest",destination);
+                                Log.d("city_break", radioButtonValue);
+                                Log.d("price", price);
+                                Log.d("date1", arrivingDate);
+                                Log.d("date2", leavingDate);
+                                Log.d("stars", stars);
+                                Log.d("linkimg", linkImage);
+                                return;
+                            }
+                            TripDB trip = new TripDB(user, tripName, arrivingDate, leavingDate, destination, radioButtonValue, Float.parseFloat(price), Float.parseFloat(stars), linkImage, 0f, false);
+                            Log.d("trip link", trip.getPhotoUri());
+                            // Save the trip using the saveTrip method
+                            saveTrip(trip, email);
+                            Toast.makeText(getApplicationContext(), "User fetched successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Handle the error
+                            Toast.makeText(getApplicationContext(), "Error fetching user: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        // Handle network error
+                        Toast.makeText(getApplicationContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    /*
     private void setSaveButtonDest(String mail){
         saveButtonDest.setOnClickListener(view -> {
             AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
@@ -106,9 +201,9 @@ public class AddDestinationActivity extends AppCompatActivity {
             }).start();
             appDatabase.close();
         });
-    }
+    }*/
 
-    private void setupCalendar(EditText myView){
+    private void setupCalendar(EditText myView) {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -118,9 +213,10 @@ public class AddDestinationActivity extends AppCompatActivity {
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 updateCalendar();
-                updateDateRange(year,month,dayOfMonth,leavingDateDestination);
+                updateDateRange(year, month, dayOfMonth, leavingDateDestination);
             }
-            private void updateCalendar(){
+
+            private void updateCalendar() {
                 String format = "dd/MM/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.UK);
                 myView.setText(sdf.format(calendar.getTime()));
@@ -128,7 +224,7 @@ public class AddDestinationActivity extends AppCompatActivity {
         };
         myView.setOnClickListener(view -> {
             new DatePickerDialog(AddDestinationActivity.this, date, calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         });
     }
 
@@ -170,7 +266,7 @@ public class AddDestinationActivity extends AppCompatActivity {
         });
     }
 
-    private void setupViews(){
+    private void setupViews() {
         tripNameDest = findViewById(R.id.tripNameDest);
         destinationDest = findViewById(R.id.destinationDest);
         arrivingDateDestination = findViewById(R.id.arrivingDateDestination);
@@ -187,52 +283,56 @@ public class AddDestinationActivity extends AppCompatActivity {
         saveButtonDest = findViewById(R.id.saveButtonDest);
     }
 
-    private void selectImage(){
+    private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //startActivity(intent);
         //Intent intent = new Intent();
         //intent.setType("image/*");
         //intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,SELECT_IMAGE_CODE);
+        startActivityForResult(intent, SELECT_IMAGE_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if (requestCode == 1) {
             Uri uri = data.getData();
-            //Log.e("URI",uri.toString());
+            Log.e("URI",uri.toString());
             selectedImageUri = uri;
         }
     }
 
-    private void setImagePickDestination(){
+    private void setImagePickDestination() {
         imagePickDestination.setOnClickListener(view -> {
             selectImage();
         });
     }
 
-    public void onRadioButtonClicked(View view){
+    public void onRadioButtonClicked(View view) {
         int radioId = radioGroupDest.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
         testShit.setText(radioButton.getText());
     }
 
-    private void setSlider(){
+    private void setSlider() {
         slider.addOnChangeListener((slider, value, fromUser) -> {
             int index = String.valueOf(value).indexOf(".");
             String text = "Price in EUR: ";
-            priceEurDest.setText(text + String.valueOf(value).substring(0,index));
+            priceEurDest.setText(text + String.valueOf(value).substring(0, index));
         });
     }
 
-    private void setRatingDest(){
+    private void setRatingDest() {
         ratingDest.setOnRatingBarChangeListener((ratingBar, v, b) -> rateValue = ratingBar.getRating());
     }
 
-    private String getValue(String str) {
+    private static String getValue(String str) {
         String[] parts = str.split(":");
-        return parts[parts.length-1].trim();
+        return parts[parts.length - 1].trim();
     }
 
+    public static Float extractNumber(String input) {
+        String number = input.replaceAll("[^0-9]", "");
+        return Float.parseFloat(number);
+    }
 }

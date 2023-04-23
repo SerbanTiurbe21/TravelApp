@@ -7,6 +7,8 @@ public class TripDB {
 
     private User user;
 
+    private String tripName;
+
     private String startDate;
 
     private String endDate;
@@ -28,9 +30,9 @@ public class TripDB {
     public TripDB() {
     }
 
-    public TripDB(Integer id, User user, String startDate, String endDate, String destination, String tripType, Float price, Float rating, String photoUri, Float temperature, Boolean isFavourite) {
-        this.id = id;
+    public TripDB(User user, String tripName, String startDate, String endDate, String destination, String tripType, Float price, Float rating, String photoUri, Float temperature, Boolean isFavourite) {
         this.user = user;
+        this.tripName = tripName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.destination = destination;
@@ -128,5 +130,13 @@ public class TripDB {
 
     public void setFavourite(Boolean favourite) {
         isFavourite = favourite;
+    }
+
+    public String getTripName() {
+        return tripName;
+    }
+
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
     }
 }
