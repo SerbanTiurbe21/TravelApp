@@ -4,16 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.myapplication_test.R;
-import com.google.myapplication_test.api.Coordinates;
-import com.google.myapplication_test.api.Example;
-import com.google.myapplication_test.api.ExampleCoord;
-import com.google.myapplication_test.api.Main;
-import com.google.myapplication_test.api.WeatherApi;
+import com.google.myapplication_test.api.city.Example;
+import com.google.myapplication_test.api.city.Main;
+import com.google.myapplication_test.api.city.WeatherApi;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityDao;

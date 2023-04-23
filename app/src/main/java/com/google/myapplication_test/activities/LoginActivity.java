@@ -1,13 +1,10 @@
 package com.google.myapplication_test.activities;
 
-import static com.google.myapplication_test.utilities.Utility.isValidEmail;
-import static com.google.myapplication_test.utilities.Utility.isValidPassword;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,16 +12,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.myapplication_test.R;
-import com.google.myapplication_test.database.AppDatabase;
-import com.google.myapplication_test.database.DatabaseHelper;
-import com.google.myapplication_test.database.User;
-import com.google.myapplication_test.database.UserDao;
+import com.google.myapplication_test.api.user.RetrofitInstance;
+import com.google.myapplication_test.api.user.UserService;
+import com.google.myapplication_test.login.LoginRequest;
+import com.google.myapplication_test.login.LoginResponse;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button registerButtonLogin, loginButtonLogin;
     EditText emailAddressLogin, passwordLogin;
-    DatabaseHelper databaseHelper;
     TextView forgotPassLogin;
 
     private void registerButtonAction() {
@@ -34,7 +36,67 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void loginUser(String userEmail, String password){
+        final LoginRequest loginRequest = new LoginRequest(userEmail,password);
+        UserService userService = RetrofitInstance.getRetrofitInstance().create(UserService.class);
+        Call<LoginResponse> call = userService.loginUser(loginRequest);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    // Handle successful login
+                    LoginResponse loginResponse = response.body();
+                    String successMessage = loginResponse.getMessage();
+                    Toast.makeText(LoginActivity.this, successMessage, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    intent.putExtra("email",userEmail);
+                    intent.putExtra("password",password);
+                    startActivity(intent);
+                } else {
+                    // Handle invalid email or password
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        // Show the error message to the user (e.g., using a Toast or TextView)
+                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                // Handle network failure or other issues
+                if (t instanceof IOException) {
+                    // This is a network error (e.g. no internet connection, timeout)
+                    Toast.makeText(LoginActivity.this, "Network error! Please check your internet connection and try again.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // This is an unexpected error (e.g. a conversion issue in Retrofit)
+                    Toast.makeText(LoginActivity.this, "An unexpected error occurred. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+
+                // You might want to log the error for debugging purposes
+                Log.e("RegisterActivity", "Registration API call failed: ", t);
+            }
+        });
+    }
+
+    private void setLoginButtonLogin(){
+        loginButtonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userEmail = emailAddressLogin.getText().toString();
+                String password = passwordLogin.getText().toString();
+                if(userEmail.isEmpty() || password.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Please input all the fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                loginUser(userEmail,password);
+            }
+        });
+    }
+
+    /*
     private void setLoginButtonLogin() {
         loginButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
     private void forgotPassAction() {
         forgotPassLogin.setOnClickListener(view -> {

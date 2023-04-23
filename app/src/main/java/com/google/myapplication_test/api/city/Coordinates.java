@@ -1,4 +1,4 @@
-package com.google.myapplication_test.api;
+package com.google.myapplication_test.api.city;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

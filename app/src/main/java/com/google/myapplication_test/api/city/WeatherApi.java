@@ -1,5 +1,7 @@
-package com.google.myapplication_test.api;
+package com.google.myapplication_test.api.city;
 
+
+import com.google.myapplication_test.api.city.Example;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

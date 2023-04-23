@@ -1,6 +1,7 @@
-package com.google.myapplication_test.api;
+package com.google.myapplication_test.api.city;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.myapplication_test.api.city.Coordinates;
 
 public class ExampleCoord {
 

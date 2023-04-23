@@ -22,38 +22,38 @@ public class City{
 
     @ColumnInfo(name = "tripName")
     @NonNull
-    public String tripName;
+    public String tripName;//added
 
     @ColumnInfo(name = "destination")
     @NonNull
-    public String destination;
+    public String destination;//added
 
     @ColumnInfo(name = "tripType")
     @NonNull
-    public String tripType;
+    public String tripType;//added
 
     @ColumnInfo(name = "price")
     @NonNull
-    public float price;
+    public float price;//added
 
     @ColumnInfo(name = "startDate")
     @NonNull
-    public String startDate;
+    public String startDate;//added
 
     @ColumnInfo(name = "endDate")
     @NonNull
-    public String endDate;
+    public String endDate;//added
 
     @ColumnInfo(name = "rating")
     @NonNull
-    public float rating;
+    public float rating;//added
 
     @ColumnInfo(name = "photoUri")
     @NonNull
-    public String photoUri;
+    public String photoUri;//
 
     @ColumnInfo(name = "temperature")
-    public float temperature;
+    public float temperature;//added
 
     @ColumnInfo(name = "latitude")
     public float latitude;
@@ -62,7 +62,7 @@ public class City{
     public float longitude;
 
     @ColumnInfo(name = "isFavourite")
-    public boolean isFavourite;
+    public boolean isFavourite;//added
 
     public City(@NonNull String userId, @NonNull String tripName, @NonNull String destination, @NonNull String tripType, @NonNull float price, @NonNull String startDate, @NonNull String endDate, @NonNull float rating, @NonNull String photoUri, float temperature, float latitude,float longitude, boolean isFavourite) {
         this.userId = userId;

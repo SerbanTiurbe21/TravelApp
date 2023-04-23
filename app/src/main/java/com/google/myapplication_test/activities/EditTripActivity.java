@@ -2,15 +2,12 @@ package com.google.myapplication_test.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.transition.Slide;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,17 +17,9 @@ import android.widget.Toast;
 
 import com.google.android.material.slider.Slider;
 import com.google.myapplication_test.R;
-import com.google.myapplication_test.api.Main;
 import com.google.myapplication_test.database.AppDatabase;
 import com.google.myapplication_test.database.City;
 import com.google.myapplication_test.database.CityDao;
-import com.google.myapplication_test.database.User;
-import com.google.myapplication_test.database.UserDao;
-import com.google.myapplication_test.fragments.trip.Trip;
-import com.google.myapplication_test.fragments.trip.TripAdapter;
-import com.google.myapplication_test.fragments.trip.TripViewModel;
-
-import java.util.List;
 
 public class EditTripActivity extends AppCompatActivity {
 
